@@ -6,4 +6,15 @@ Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
-INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v" Line 1. Module ahd_6463_risc_v doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v" Line 1. Module register_file doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v" Line 1. Module ahd_6463_risc_v doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v" Line 1. Module register_file doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.register_file
+Compiling module xil_defaultlib.ahd_6463_risc_v
+Compiling module xil_defaultlib.riscv321rv6463_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot riscv321rv6463_tb_behav

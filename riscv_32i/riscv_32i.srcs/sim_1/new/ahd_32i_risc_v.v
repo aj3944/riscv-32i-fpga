@@ -20,10 +20,10 @@ module ahd_6463_risc_v(
     reg [3: 0] PROCESS_STATE;
     reg [31: 0] OP_INSTR;
     
-    reg [31:0] I_MEM [0:10];
+    reg [31:0] I_MEM [0:100];
 //    reg [31:0] I_MEM [0:2*2**10];
 //    reg [31:0] D_MEM [0:4*2**10];
-    reg [31:0] D_MEM [0:410];
+    reg [31:0] D_MEM [0:100];
      
     register_file REG_FILE_INST (
         .clk(clk),
@@ -75,20 +75,23 @@ module ahd_6463_risc_v(
                 4'b0001: begin
                     //DECODE
                     OP_INSTR <= I_MEM[curr_pc];
-
+                    opcode <= I_MEM[curr_pc][6:0];                    
                     PROCESS_STATE <= 4'b0010;
                     end
                 4'b0010: begin
                     // EXECUTE
-                    $display("OPCODE %h %b",OP_INSTR,OP_INSTR[6:0]);
-                    opcode <= OP_INSTR[6:0];
+                    $display("OP_INSTR:%h \t\tOPCODE: %0b",OP_INSTR,opcode);
                     case (opcode)
-                        7'b0110111: begin
-                            addr_rd <= OP_INSTR[11:7];
-                            upper_bits <= OP_INSTR[31:12];
+                        7'h37: begin // LUI
+                            addr_bus_DST1 <= OP_INSTR[11:7];
+                            data_bus_DST1 <= { OP_INSTR[31:12] , 12'b0 };
+                        end
+                        7'h37: begin // AUIPC 
+                            addr_bus_DST1 <= OP_INSTR[11:7];
+                            data_bus_DST1 <= program_counter + { OP_INSTR[31:12] , 12'b0 };
                         end
                         default : begin
-                        
+                            $display("\t\t\t\tERROR!!!\t\tUNKOWN OPCODE:\t\t %x \t\t %0b", opcode,opcode);
                         end
                     endcase
 
@@ -97,17 +100,6 @@ module ahd_6463_risc_v(
                 4'b0011: begin
                     // MEM ACCESS
 
-
-                    opcode <= OP_INSTR[6:0];
-                    case (opcode)
-                        7'b0110111: begin
-                            addr_bus_DST1 <= addr_rd;
-                            data_bus_DST1 <= { upper_bits, 12'b0 } ;
-                        end
-                        default : begin
-                        
-                        end
-                    endcase
 
                     PROCESS_STATE <= 4'b0100;
                     end

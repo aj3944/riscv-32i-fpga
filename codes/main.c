@@ -1,8 +1,8 @@
 
 
 int main(){
-	int a = 4;
-	int b = 5;
+	int a = 0;
+	int b = 0;
 
 	int c = a + b;
 

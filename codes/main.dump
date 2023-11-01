@@ -6,14 +6,14 @@ SYMBOL TABLE:
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
 00000000 l    df *ABS*	00000000 main.c
-000118b4 g       *ABS*	00000000 __global_pointer$
-000110b4 g       .text	00000000 __SDATA_BEGIN__
-000110b4 g       .text	00000000 __BSS_END__
-000110b4 g       .text	00000000 __bss_start
-00010074 g     F .text	00000040 main
-000110b4 g       .text	00000000 __DATA_BEGIN__
-000110b4 g       .text	00000000 _edata
-000110b4 g       .text	00000000 _end
+000118ac g       *ABS*	00000000 __global_pointer$
+000110ac g       .text	00000000 __SDATA_BEGIN__
+000110ac g       .text	00000000 __BSS_END__
+000110ac g       .text	00000000 __bss_start
+00010074 g     F .text	00000038 main
+000110ac g       .text	00000000 __DATA_BEGIN__
+000110ac g       .text	00000000 _edata
+000110ac g       .text	00000000 _end
 
 
 
@@ -23,16 +23,14 @@ Disassembly of section .text:
    10074:	fe010113          	add	sp,sp,-32
    10078:	00812e23          	sw	s0,28(sp)
    1007c:	02010413          	add	s0,sp,32
-   10080:	00400793          	li	a5,4
-   10084:	fef42623          	sw	a5,-20(s0)
-   10088:	00500793          	li	a5,5
-   1008c:	fef42423          	sw	a5,-24(s0)
-   10090:	fec42703          	lw	a4,-20(s0)
-   10094:	fe842783          	lw	a5,-24(s0)
-   10098:	00f707b3          	add	a5,a4,a5
-   1009c:	fef42223          	sw	a5,-28(s0)
-   100a0:	fe442783          	lw	a5,-28(s0)
-   100a4:	00078513          	mv	a0,a5
-   100a8:	01c12403          	lw	s0,28(sp)
-   100ac:	02010113          	add	sp,sp,32
-   100b0:	00008067          	ret
+   10080:	fe042623          	sw	zero,-20(s0)
+   10084:	fe042423          	sw	zero,-24(s0)
+   10088:	fec42703          	lw	a4,-20(s0)
+   1008c:	fe842783          	lw	a5,-24(s0)
+   10090:	00f707b3          	add	a5,a4,a5
+   10094:	fef42223          	sw	a5,-28(s0)
+   10098:	fe442783          	lw	a5,-28(s0)
+   1009c:	00078513          	mv	a0,a5
+   100a0:	01c12403          	lw	s0,28(sp)
+   100a4:	02010113          	add	sp,sp,32
+   100a8:	00008067          	ret

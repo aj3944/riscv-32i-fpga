@@ -43,7 +43,7 @@ module riscv321rv6463_tb();
        t_en <= 1;
        #100;
        t_rst <= 0;
-       #6000
+       #10_000_000
        $display("RISC-V RV32I AHD-6463 WORKING NICELY");
        $finish;
     end
