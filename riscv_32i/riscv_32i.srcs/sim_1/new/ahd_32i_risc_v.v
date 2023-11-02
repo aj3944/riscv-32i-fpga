@@ -67,26 +67,30 @@ module ahd_6463_risc_v(
         end else begin
             case (PROCESS_STATE)
                 4'b0000: begin
-                    //FETCH
+                    //PC UPDATE
                     curr_pc = program_counter;
 //                    program_counter <= program_counter + 4;
                     PROCESS_STATE <= 4'b0001;
                     end
                 4'b0001: begin
-                    //DECODE
+                    //FETCH
                     OP_INSTR <= I_MEM[curr_pc];
                     opcode <= I_MEM[curr_pc][6:0];                    
                     PROCESS_STATE <= 4'b0010;
                     end
                 4'b0010: begin
-                    // EXECUTE
+                    // DECODE
                     $display("OP_INSTR:%h \t\tOPCODE: %0b",OP_INSTR,opcode);
                     case (opcode)
                         7'h37: begin // LUI
                             addr_bus_DST1 <= OP_INSTR[11:7];
                             data_bus_DST1 <= { OP_INSTR[31:12] , 12'b0 };
                         end
-                        7'h37: begin // AUIPC 
+                        7'h17: begin // AUIPC 
+                            addr_bus_DST1 <= OP_INSTR[11:7];
+                            data_bus_DST1 <= program_counter + { OP_INSTR[31:12] , 12'b0 };
+                        end
+                        7'h67: begin // JAL 
                             addr_bus_DST1 <= OP_INSTR[11:7];
                             data_bus_DST1 <= program_counter + { OP_INSTR[31:12] , 12'b0 };
                         end
