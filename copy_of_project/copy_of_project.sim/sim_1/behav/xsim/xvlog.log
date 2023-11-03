@@ -1,0 +1,6 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ahd_6463_risc_v
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module register_file
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module riscv321rv6463_tb
