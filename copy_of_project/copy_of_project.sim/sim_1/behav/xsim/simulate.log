@@ -1,4 +1,3 @@
+Vivado Simulator 2020.2
 Time resolution is 1 ps
-OP_INSTR:beef01b7 		OPCODE: 110111
-OP_INSTR:dead02b7 		OPCODE: 110111
-OP_INSTR:fee70337 		OPCODE: 110111
+$finish called at time : 120 ns : File "C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_mem_data.v" Line 27
