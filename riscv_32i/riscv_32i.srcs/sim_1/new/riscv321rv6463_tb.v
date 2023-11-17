@@ -1,21 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: NYU TANDON
+// Engineers: BRAVO JAIN MARKOWSKI
 // 
 // Create Date: 10/31/2023 08:51:42 PM
-// Design Name: 
+// Design Name: RISC V Testbench for FPGA RISC-V REV32I 
 // Module Name: riscv321rv6463_tb
-// Project Name: 
-// Target Devices: 
+// Project Name: BAYRISC
+// Target Devices: BAYSYS 3
 // Tool Versions: 
-// Description: 
+// Description: Adv. Hardware Design by Prof. Karri
 // 
 // Dependencies: 
 // 
 // Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
+// Revision 0.02 Milestone 2
+// Additional Comments: TODO: 
+//
 // 
 //////////////////////////////////////////////////////////////////////////////////
 

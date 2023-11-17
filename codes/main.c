@@ -11,8 +11,6 @@ int fib(int a , int b){
 int main(){
 	int a = 1000;
 	int b = 20;
-
-
 	int c = fib(a,b);	
 	return c;
 }

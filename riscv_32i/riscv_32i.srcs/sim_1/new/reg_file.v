@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module register_file (
     input wire clk,rst,en,
     input wire [4:0] addr_1,

@@ -3,6 +3,8 @@
 May  7 2023
 15:10:42
 /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.sim/sim_1/behav/xsim/glbl.v,1683266558,verilog,,,,glbl,,,,,,,,
-/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v,1698863300,verilog,,/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v,,ahd_6463_risc_v,,,,,,,,
+/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v,1700235139,verilog,,/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_data.v,,ahd_6463_risc_v,,,,,,,,
+/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_data.v,1699041555,verilog,,/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_instr.v,,mem_data,,,,,,,,
+/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_instr.v,1700233905,verilog,,/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v,,mem_instr,,,,,,,,
 /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v,1698799524,verilog,,/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v,,register_file,,,,,,,,
 /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v,1698856236,verilog,,,,riscv321rv6463_tb,,,,,,,,
