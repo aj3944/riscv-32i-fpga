@@ -61,12 +61,12 @@ module ahd_6463_risc_v(
     );
 
 
-    reg [31 : 0] data_bus_MEM;
+    wire [31 : 0] data_bus_MEM;
     reg [12 : 0] data_addr_MEM;
     reg [31:0] data_WRITE;
     wire data_WE_CTRL;
 
-    reg [31 : 0] instr_bus_MEM;
+    wire [31 : 0] instr_bus_MEM;
     reg [12 : 0] instr_addr_MEM;
     reg [31:0] instr_WRITE;
     wire instr_WE_CTRL;
@@ -131,8 +131,7 @@ module ahd_6463_risc_v(
                     end
                 4'b0001: begin
                     //FETCH
-                    instr_bus_MEM <= curr_pc;
-     
+                    instr_addr_MEM <= curr_pc;
                     PROCESS_STATE <= 4'b0010;
                     end
                 4'b0010: begin
@@ -172,7 +171,7 @@ module ahd_6463_risc_v(
                                     dst1_input_REG <= $signed(src1_data_REG)   <   $signed(instr_bus_MEM[31:20]) ?  1 : 0;               
                                 end 
                                 3'b011: begin /// SLTIU
-                                    dst1_input_REG <= $unsigend(src1_data_REG) < $unsigned(instr_bus_MEM[31:20]) ?  1 : 0;               
+                                    dst1_input_REG <= $unsigned(src1_data_REG) < $unsigned(instr_bus_MEM[31:20]) ?  1 : 0;               
                                 end  
                                 3'b100: begin /// XORI
                                     dst1_input_REG <= src1_data_REG ^ instr_bus_MEM[31:20];               
@@ -190,7 +189,7 @@ module ahd_6463_risc_v(
                                     if (instr_bus_MEM[30]) begin
                                         dst1_input_REG <= $signed(src1_data_REG) >> instr_bus_MEM[31:20];               
                                     end else begin
-                                        dst1_input_REG <= $unsigend(src1_data_REG) >> instr_bus_MEM[31:20];               
+                                        dst1_input_REG <= $unsigned(src1_data_REG) >> instr_bus_MEM[31:20];               
                                     end             
                                 end 
                                 default: begin
