@@ -5,7 +5,6 @@
 .type reset_handler,@function
 reset_handler:
 	addi x1, x0, 1
-	addi x2, x0, 2
-loop:
-	add x1, x1, x2
-	j loop
+	mov x1, 66FF
+led_on:
+	ecall

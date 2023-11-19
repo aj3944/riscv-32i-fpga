@@ -24,7 +24,7 @@
 
 module ahd_6463_risc_v(
     input wire en,rst,clk,
-    output reg [31:0] led_out
+    output reg [15:0] LED
     );
     
     reg [31:0] program_counter;
@@ -64,12 +64,12 @@ module ahd_6463_risc_v(
     wire [31 : 0] data_bus_MEM;
     reg [12 : 0] data_addr_MEM;
     reg [31:0] data_WRITE;
-    wire data_WE_CTRL;
+    reg  [1:0] data_WE_CTRL;
 
     wire [31 : 0] instr_bus_MEM;
     reg [12 : 0] instr_addr_MEM;
     reg [31:0] instr_WRITE;
-    wire instr_WE_CTRL;
+    reg instr_WE_CTRL;
         
     
     mem_instr MEM_INST (
@@ -151,7 +151,7 @@ module ahd_6463_risc_v(
                     end
                 4'b0011: begin
                     // EXECUTE
-                    $display("OP_INSTR:%h \t\tOPCODE: %0b",OP_INSTR,opcode);
+//                    $display("OP_INSTR:%h \t\tOPCODE: %0b",OP_INSTR,opcode);
                     case (opcode)
                         7'h37: begin // LUI
                             dst1_addr_REG <= OP_INSTR[11:7];
@@ -161,6 +161,143 @@ module ahd_6463_risc_v(
                             dst1_addr_REG <= OP_INSTR[11:7];
                             dst1_input_REG <= program_counter + { OP_INSTR[31:12] , 12'b0 };
                         end
+                        7'h6F: begin // JAL
+                          dst1_addr_REG <= OP_INSTR[11:7];
+                          // MAKE AVAILIBLE DATA TO  MEMORY FETCH TO REGISTER FILE 
+                          dst1_input_REG <= program_counter + 4;
+                          program_counter <= program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[19:12],instr_bus_MEM[20],instr_bus_MEM[30:21]});
+                          PROCESS_STATE <= 4'b0000;
+                        end
+                        7'h67: begin //JALR
+                          dst1_addr_REG <= OP_INSTR[11:7];
+                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                          dst1_input_REG <= program_counter + 4;
+                          program_counter <= src1_data_REG + $signed({instr_bus_MEM[31],instr_bus_MEM[19:12],instr_bus_MEM[20],instr_bus_MEM[30:21]});
+                          PROCESS_STATE <= 4'b0000;
+                        end
+                        7'h63:
+                            case(opfunc)
+                                3'b000: begin // BEQ
+                                program_counter = (src1_data_REG == src1_data_REG ) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end
+                                3'b001: begin// BNE
+                                program_counter = (src1_data_REG != src1_data_REG ) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end
+                                3'b100:begin// BLT
+                                program_counter = ($signed(src1_data_REG) < $signed(src1_data_REG)) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end
+                                3'b101: begin// BGE
+                                program_counter = ($signed(src1_data_REG) >= $signed(src1_data_REG)) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end
+                                3'b110:begin// BLTU
+                                program_counter = ($unsigned(src1_data_REG) < $unsigned(src1_data_REG) ) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end
+                                3'b111: begin// BGEU
+                                program_counter = ($unsigned(src1_data_REG) < $unsigned(src1_data_REG)) ? program_counter + $signed({instr_bus_MEM[31],instr_bus_MEM[7],instr_bus_MEM[30:25],instr_bus_MEM[11:8]}) : program_counter + 4; 
+                                PROCESS_STATE <= 4'b0000;
+                                end                                
+                            endcase
+
+                        7'h03: begin //LOAD 
+                            case (opfunc) 
+                                3'b000: begin // LB
+    //                                src1_addr_REG <=  
+                                      if (PROCESS_SUBSTATE == 4'b0000) begin
+                                        // GIVE MEMORY ADDRESS TO LOAD
+                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
+                                        PROCESS_SUBSTATE <= 4'b0001;
+                                        PROCESS_STATE <= PROCESS_STATE - 1;
+                                      end else begin 
+                                          // TELL REGISTER FILE WHICH DST WILL BE USED
+                                          PROCESS_SUBSTATE <= 4'b0000;
+                                          dst1_addr_REG <= OP_INSTR[11:7];
+                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                                          dst1_input_REG <= $signed(data_bus_MEM[7:0]);
+                                      end 
+                                end
+                                3'b001: begin // LH
+                                      if (PROCESS_SUBSTATE == 4'b0000) begin
+                                        // GIVE MEMORY ADDRESS TO LOAD
+                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
+                                        PROCESS_SUBSTATE <= 4'b0001;
+                                        PROCESS_STATE <= PROCESS_STATE - 1;
+                                      end else begin 
+                                          // TELL REGISTER FILE WHICH DST WILL BE USED
+                                          PROCESS_SUBSTATE <= 4'b0000;
+                                          dst1_addr_REG <= OP_INSTR[11:7];
+                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                                          dst1_input_REG <= $signed(data_bus_MEM[15:0]);
+                                      end 
+                                end
+                                3'b010: begin // LW
+                                      if (PROCESS_SUBSTATE == 4'b0000) begin
+                                        // GIVE MEMORY ADDRESS TO LOAD
+                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
+                                        PROCESS_SUBSTATE <= 4'b0001;
+                                        PROCESS_STATE <= PROCESS_STATE - 1;
+                                      end else begin 
+                                          // TELL REGISTER FILE WHICH DST WILL BE USED
+                                          PROCESS_SUBSTATE <= 4'b0000;
+                                          dst1_addr_REG <= OP_INSTR[11:7];
+                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                                          dst1_input_REG <= $signed(data_bus_MEM);
+                                      end
+                                end
+                                3'b100: begin // LBU
+                                      if (PROCESS_SUBSTATE == 4'b0000) begin
+                                        // GIVE MEMORY ADDRESS TO LOAD
+                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
+                                        PROCESS_SUBSTATE <= 4'b0001;
+                                        PROCESS_STATE <= PROCESS_STATE - 1;
+                                      end else begin 
+                                          // TELL REGISTER FILE WHICH DST WILL BE USED
+                                          PROCESS_SUBSTATE <= 4'b0000;
+                                          dst1_addr_REG <= OP_INSTR[11:7];
+                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                                          dst1_input_REG <= $unsigned(data_bus_MEM[7:0]);
+                                      end
+                                end
+                                3'b101: begin // LHU
+                                      if (PROCESS_SUBSTATE == 4'b0000) begin
+                                        // GIVE MEMORY ADDRESS TO LOAD
+                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
+                                        PROCESS_SUBSTATE <= 4'b0001;
+                                        PROCESS_STATE <= PROCESS_STATE - 1;
+                                      end else begin 
+                                          // TELL REGISTER FILE WHICH DST WILL BE USED
+                                          PROCESS_SUBSTATE <= 4'b0000;
+                                          dst1_addr_REG <= OP_INSTR[11:7];
+                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
+                                          dst1_input_REG <= $unsigned(data_bus_MEM[15:0]);
+                                      end
+                                end
+                            endcase
+                        end
+                        7'h23: begin //STORE
+                            case (opfunc) 
+                                3'b000: begin //SB
+                                    data_addr_MEM <= src1_data_REG + $signed({instr_bus_MEM[31:25],instr_bus_MEM[11:7]});
+                                    data_WE_CTRL <= 2'b01;
+                                    data_WRITE <= src2_data_REG[7:0];                            
+                                end
+                                3'b001: begin //SH
+                                    data_addr_MEM <= src1_data_REG + $signed({instr_bus_MEM[31:25],instr_bus_MEM[11:7]});
+                                    data_WE_CTRL <= 2'b10;
+                                    data_WRITE <= src2_data_REG[15:0];
+                                end
+                                3'b010: begin //SW
+                                    data_addr_MEM <= src1_data_REG + $signed({instr_bus_MEM[31:25],instr_bus_MEM[11:7]});
+                                    data_WE_CTRL <= 2'b11;
+                                    data_WRITE <= src2_data_REG;
+                                end
+                            endcase
+                        end
+
                         7'h13: begin // IMMEDIATE
                             dst1_addr_REG <= OP_INSTR[11:7];
                             case (opfunc)
@@ -249,95 +386,15 @@ module ahd_6463_risc_v(
                                     end
                             endcase 
                         end
-                        7'h03: begin //LOAD 
-                            case (opfunc) 
-                                3'b000: begin // LB
-    //                                src1_addr_REG <=  
-                                      if (PROCESS_SUBSTATE == 4'b0000) begin
-                                        // GIVE MEMORY ADDRESS TO LOAD
-                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
-                                        PROCESS_SUBSTATE <= 4'b0001;
-                                        PROCESS_STATE <= PROCESS_STATE - 1;
-                                      end else begin 
-                                          // TELL REGISTER FILE WHICH DST WILL BE USED
-                                          PROCESS_SUBSTATE <= 4'b0000;
-                                          dst1_addr_REG <= OP_INSTR[11:7];
-                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
-                                          dst1_input_REG <= $signed(data_bus_MEM[7:0]);
-                                      end 
-                                end
-                                3'b001: begin // LH
-                                      if (PROCESS_SUBSTATE == 4'b0000) begin
-                                        // GIVE MEMORY ADDRESS TO LOAD
-                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
-                                        PROCESS_SUBSTATE <= 4'b0001;
-                                        PROCESS_STATE <= PROCESS_STATE - 1;
-                                      end else begin 
-                                          // TELL REGISTER FILE WHICH DST WILL BE USED
-                                          PROCESS_SUBSTATE <= 4'b0000;
-                                          dst1_addr_REG <= OP_INSTR[11:7];
-                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
-                                          dst1_input_REG <= $signed(data_bus_MEM[15:0]);
-                                      end 
-                                end
-                                3'b010: begin // LW
-                                      if (PROCESS_SUBSTATE == 4'b0000) begin
-                                        // GIVE MEMORY ADDRESS TO LOAD
-                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
-                                        PROCESS_SUBSTATE <= 4'b0001;
-                                        PROCESS_STATE <= PROCESS_STATE - 1;
-                                      end else begin 
-                                          // TELL REGISTER FILE WHICH DST WILL BE USED
-                                          PROCESS_SUBSTATE <= 4'b0000;
-                                          dst1_addr_REG <= OP_INSTR[11:7];
-                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
-                                          dst1_input_REG <= $signed(data_bus_MEM);
-                                      end
-                                end
-                                3'b100: begin // LBU
-                                      if (PROCESS_SUBSTATE == 4'b0000) begin
-                                        // GIVE MEMORY ADDRESS TO LOAD
-                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
-                                        PROCESS_SUBSTATE <= 4'b0001;
-                                        PROCESS_STATE <= PROCESS_STATE - 1;
-                                      end else begin 
-                                          // TELL REGISTER FILE WHICH DST WILL BE USED
-                                          PROCESS_SUBSTATE <= 4'b0000;
-                                          dst1_addr_REG <= OP_INSTR[11:7];
-                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
-                                          dst1_input_REG <= $unsigned(data_bus_MEM[7:0]);
-                                      end
-                                end
-                                3'b101: begin // LHU
-                                      if (PROCESS_SUBSTATE == 4'b0000) begin
-                                        // GIVE MEMORY ADDRESS TO LOAD
-                                        data_addr_MEM <= src1_data_REG + $signed(instr_bus_MEM);
-                                        PROCESS_SUBSTATE <= 4'b0001;
-                                        PROCESS_STATE <= PROCESS_STATE - 1;
-                                      end else begin 
-                                          // TELL REGISTER FILE WHICH DST WILL BE USED
-                                          PROCESS_SUBSTATE <= 4'b0000;
-                                          dst1_addr_REG <= OP_INSTR[11:7];
-                                          // MAKE AVAILIBLE RESULT OF MEMORY FETCH TO REGISTER FILE 
-                                          dst1_input_REG <= $unsigned(data_bus_MEM[15:0]);
-                                      end
-                                end
-                            endcase
+                        7'h0F: begin //FENCE
+                            LED <= dst1_input_REG[15:0];
                         end
-                        7'h23: begin //STORE
-                            case (opfunc) 
-                            3'b000: begin //SB
-                            end
-                            3'b001: begin //SH
-                            end
-                            3'b010: begin //SW
-                            end
-                            
-                                
-                            endcase
+                        7'h73: begin //ECALL & EBREAK
+                            LED <= dst1_input_REG[15:0];
                         end
+                        
                         default : begin
-                            $display("\t\t\t\tERROR!!!\t\tUNKOWN OPCODE:\t\t %x \t\t %0b", opcode,opcode);
+//                            $display("\t\t\t\tERROR!!!\t\tUNKOWN OPCODE:\t\t %x \t\t %0b", opcode,opcode);
                         end
                     endcase
 
@@ -361,7 +418,7 @@ module ahd_6463_risc_v(
                     end    
                 default : begin 
                     //GOTO FETCH
-                    program_counter <= program_counter + 1;
+                    program_counter <= program_counter + 4;
                     PROCESS_STATE <= 4'b0000;
                     end
              endcase

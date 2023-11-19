@@ -70,11 +70,10 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param xicom.use_bs_reader 1
 set_param chipscope.maxJobs 2
-set_param checkpoint.writeSynthRtdsInDcp 1
-set_param synth.incrementalSynthesisCache ./.Xil/Vivado-11952-boon/incrSyn
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
+set_msg_config -id {HDL 9-1061} -limit 100000
+set_msg_config -id {HDL 9-1654} -limit 100000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-3
 
@@ -90,6 +89,7 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
+  /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/alu_base.v
   /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_data.v
   /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_instr.v
   /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v
@@ -104,7 +104,12 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/constrs_1/new/constraints.xdc
+set_property used_in_implementation false [get_files /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/constrs_1/new/constraints.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/utils_1/imports/synth_1/ahd_6463_risc_v.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

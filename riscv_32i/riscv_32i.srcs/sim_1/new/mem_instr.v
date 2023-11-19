@@ -8,7 +8,7 @@ input we,
 output [DATA_WIDTH-1:0] dout
 );
 
-reg [DATA_WIDTH-1:0] memory_cell [0:2**ADDR_WIDTH];
+reg [DATA_WIDTH-1:0] memory_cell [0:2**(ADDR_WIDTH-2)];
 
 //Current State Logic
 initial begin 
@@ -18,10 +18,10 @@ end
 always@(posedge clk)
 begin
     if(we)
-        memory_cell[addr] <= dataIn;
+        memory_cell[addr >> 2] <= dataIn;
 end
 
 //Output Logic
-assign dout = memory_cell[addr];
+assign dout = memory_cell[addr >> 2];
 
 endmodule
