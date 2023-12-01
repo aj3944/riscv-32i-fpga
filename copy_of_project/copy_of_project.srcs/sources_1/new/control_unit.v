@@ -15,9 +15,9 @@ output reg we_result,
 output reg we_dmem,
 output reg we_pc,
 output reg we_store,
-output reg mux_store,
+output reg [1:0] mux_store,
 output reg [2:0] mux_load,
-output reg [1:0] mux_wb,
+output reg [2:0] mux_wb,
 output reg we_rf,
 output reg mux_pc,
 output reg mux_jalr
@@ -31,6 +31,8 @@ output reg mux_jalr
     localparam STATE_ID_BTYPE = 5'h03;
     localparam STATE_ID_STYPE = 5'h04;
     localparam STATE_ID_JTYPE = 5'h05;
+    localparam STATE_ID_LUI = 5'h06;
+    localparam STATE_ID_AUIPC = 5'h1E;
     
     localparam STATE_EX_ADD = 5'h07;
     localparam STATE_EX_SUB = 5'h08;
@@ -92,6 +94,12 @@ output reg mux_jalr
                     state_next = STATE_ID_JTYPE;
                 else if(opcode == 7'b1100011)
                     state_next = STATE_ID_BTYPE;
+                else if(opcode == 7'b0110111)
+                    state_next = STATE_ID_LUI;
+                else if(opcode == 7'b0010111)
+                    state_next = STATE_ID_AUIPC;
+                else if(opcode == 7'b1110011)
+                    state_next = STATE_IF_INIT; //halt, we might change this in the future
                 else
                     state_next = STATE_ID_ITYPE;
             end
@@ -142,7 +150,27 @@ output reg mux_jalr
             begin
                 if(opcode == 7'b0000011)
                     state_next = STATE_EX_ADD;
-                //
+                else if(funct3 == 3'b000)
+                    state_next = STATE_EX_ADD;
+                else if(funct3 == 3'b001)
+                    state_next = STATE_EX_SLL;
+                else if(funct3 == 3'b010)
+                    state_next = STATE_EX_SLT;
+                else if(funct3 == 3'b011)
+                    state_next = STATE_EX_SLTU;
+                else if(funct3 == 3'b100)
+                    state_next = STATE_EX_XOR;
+                else if(funct3 == 3'b101)
+                begin
+                    if(funct7[5] == 1'b0)
+                        state_next = STATE_EX_SRL;
+                    else
+                        state_next = STATE_EX_SRA;
+                end
+                else if(funct3 == 3'b110)
+                    state_next = STATE_EX_OR;
+                else
+                    state_next = STATE_EX_AND;
             end
             
             STATE_ID_STYPE:
@@ -167,6 +195,16 @@ output reg mux_jalr
             end
             
             STATE_ID_JTYPE:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_ID_LUI:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_ID_AUIPC:
             begin
                 state_next = STATE_IF_INIT;
             end
@@ -345,6 +383,18 @@ output reg mux_jalr
     begin
         mux_se = 3'b000;
         mux_alu = 1'b0;
+        we_alu = 1'b0;
+        aluop = 4'b0000;
+        we_result = 1'b0;
+        we_dmem = 1'b0;
+        we_pc = 1'b0;
+        we_store = 1'b0;
+        mux_store = 2'b00;
+        mux_load = 3'b010;
+        mux_wb = 3'b000;
+        we_rf = 1'b0;
+        mux_pc = 1'b0;
+        mux_jalr = 1'b0;
         case(state_curr)
             STATE_IF_INIT:
             begin
@@ -372,48 +422,68 @@ output reg mux_jalr
             begin
                 mux_se = 3'b000;
                 mux_jalr = 1'b0;
-                mux_wb = 2'b10;
+                mux_wb = 3'b010;
+                we_rf = 1'b1;
+            end
+            STATE_ID_LUI:
+            begin
+                mux_wb = 3'b011;
+                we_rf = 1'b1;
+            end
+            STATE_ID_AUIPC:
+            begin
+                mux_wb = 3'b100;
                 we_rf = 1'b1;
             end
             STATE_EX_ADD:
             begin
                 aluop = 4'b0000;
+                we_alu = 1'b1;
             end
             STATE_EX_SUB:
             begin
                 aluop = 4'b1000;
+                we_alu = 1'b1;
             end
             STATE_EX_SLL:
             begin
                 aluop = 4'b0001;
+                we_alu = 1'b1;
             end
             STATE_EX_SLT:
             begin
                 aluop = 4'b0010;
+                we_alu = 1'b1;
             end
             STATE_EX_SLTU:
             begin
                 aluop = 4'b0011;
+                we_alu = 1'b1;
             end
             STATE_EX_XOR:
             begin
                 aluop = 4'b0100;
+                we_alu = 1'b1;
             end
             STATE_EX_SRL:
             begin
                 aluop = 4'b0101;
+                we_alu = 1'b1;
             end
             STATE_EX_SRA:
             begin
                 aluop = 4'b1101;
+                we_alu = 1'b1;
             end
             STATE_EX_OR:
             begin
                 aluop = 4'b0110;
+                we_alu = 1'b1;
             end
             STATE_EX_AND:
             begin
                 aluop = 4'b0111;
+                we_alu = 1'b1;
             end
             STATE_MEM_LB:
             begin
@@ -469,7 +539,7 @@ output reg mux_jalr
                 we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
-                mux_wb = 2'b00;
+                mux_wb = 3'b000;
                 mux_pc = 1'b0;
             end
             STATE_WB_LOAD:
@@ -477,7 +547,7 @@ output reg mux_jalr
                 we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
-                mux_wb = 2'b01;
+                mux_wb =3'b001;
                 mux_pc = 1'b0;
             end
             STATE_WB_JALR:
@@ -485,7 +555,7 @@ output reg mux_jalr
                 we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
-                mux_wb = 2'b10;
+                mux_wb = 3'b010;
                 mux_pc = 1'b1;
                 mux_jalr = 1'b1;
             end
