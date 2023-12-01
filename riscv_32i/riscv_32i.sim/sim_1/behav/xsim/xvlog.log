@@ -1,16 +1,6 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/alu_base.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module alu_base
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_data.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module mem_data
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/mem_instr.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module mem_instr
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/reg_file.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module register_file
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ahd_6463_risc_v
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module riscv321rv6463_tb
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/ctrl_unit.v" into library xil_defaultlib
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/pgrm_cntr.v" into library xil_defaultlib
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/alu_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module alu_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/control_unit.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module control_unit

@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/mem_data.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module mem_data
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_mem_data.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_mem_data
