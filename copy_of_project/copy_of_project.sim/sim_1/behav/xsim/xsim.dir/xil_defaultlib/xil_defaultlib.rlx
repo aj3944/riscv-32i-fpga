@@ -2,8 +2,8 @@
 2020.2
 Nov 18 2020
 09:47:47
-C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.sim/sim_1/behav/xsim/glbl.v,1701452169,verilog,,,,glbl,,,,,,,,
+C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.sim/sim_1/behav/xsim/glbl.v,1701482513,verilog,,,,glbl,,,,,,,,
 C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/mem_data.v,1699107687,verilog,,C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_mem_data.v,,mem_data,,,,,,,,
-C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_control_unit.v,1701481533,verilog,,,,tb_control_unit,,,,,,,,
+C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_control_unit.v,1701486345,verilog,,,,tb_control_unit,,,,,,,,
 C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_mem_data.v,1699310133,verilog,,,,tb_mem_data,,,,,,,,
-C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sources_1/new/control_unit.v,1701480705,verilog,,C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_control_unit.v,,control_unit,,,,,,,,
+C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sources_1/new/control_unit.v,1701482513,verilog,,C:/Users/User/Documents/Advanced Hardware Design/riscv-32i-fpga/copy_of_project/copy_of_project.srcs/sim_1/new/tb_control_unit.v,,control_unit,,,,,,,,
