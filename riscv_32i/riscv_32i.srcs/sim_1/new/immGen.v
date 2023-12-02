@@ -1,7 +1,7 @@
 module immGen (
-    input [31:0] instruction
+    input [31:0] instruction,
     input [2:0] immSel,
-    output [31:0] imm,
+    output [31:0] imm
 );
 
 reg [31:0] res;

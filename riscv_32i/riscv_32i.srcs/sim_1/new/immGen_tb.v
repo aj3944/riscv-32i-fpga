@@ -24,8 +24,8 @@ immGen uut (
     .imm(imm)
 );
 
-inital begin
-    file = #open("test.txt", "r");
+initial begin
+    file = $fopen("immgen_tb.txt", "r");
     i = 0;
     while (!$feof(file)) begin
         // reads binary numbers from file in format "32'b 10'b"
