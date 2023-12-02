@@ -16,6 +16,8 @@ verilog xil_defaultlib  \
 "../../../../riscv_32i.srcs/sim_1/new/tb_data_mem.v" \
 "../../../../riscv_32i.srcs/sim_1/new/CU_tb.v" \
 "../../../../riscv_32i.srcs/sim_1/new/tb_reg_file.v" \
+"../../../../../../verilog_test/control_unit.v" \
+"../../../../../../verilog_test/tb_control_unit.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"
