@@ -31,7 +31,7 @@ module riscv321rv6463_tb();
     .rst(t_rst),
     .en(t_en),
     .clk(t_clk),
-    .led_out(t_led_out)
+    .LED(t_led_out)
     );
     
     always begin

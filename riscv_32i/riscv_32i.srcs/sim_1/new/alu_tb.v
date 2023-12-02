@@ -102,7 +102,7 @@ module alu_tb(
     
     
     
-    $error("All tests passed");
+    $display("All tests passed");
     $finish;
     end         
     

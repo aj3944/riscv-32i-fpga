@@ -121,7 +121,7 @@ reg [31:0] alu_result;
         rst = 0;
         #10;
         //ID stage
-        if(mux_wb !== 3'b011) || (we_rf !== 1'b1))
+        if ((mux_wb !== 3'b011) || (we_rf !== 1'b1))
             $fatal(1, "ID: LUI instruction failed");
         // #10;
         // //EX stage
@@ -141,7 +141,7 @@ reg [31:0] alu_result;
         rst = 0;
         #10;
         //ID stage
-        if(mux_wb !== 3'b100) || (we_rf !== 1'b1))
+        if ((mux_wb !== 3'b100) || (we_rf !== 1'b1))
             $fatal(1, "ID: AUIPC instruction failed");
         // #10;
         // //EX stage

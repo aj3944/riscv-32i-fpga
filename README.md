@@ -15,6 +15,14 @@ Performs basic arithmetic according to the control functions. Purely combinatori
 	12 bit wide address bus with 32 bit byte addressed with 4K bytes
 ## Test-benches
 This project contains test-benches for each component and also tests the integration of all the components individually.
+- Control Unit TB
+Stochastic stsate machine testing in python to test as many as possible followed by manual edge case testing for tricky states and opcodes. >2000 cases tested.
+- ALU TB
+Tests all functionality. Combinational logic makes timing test easy.
+- Register File TB
+Tests Load, store and address decode. Write protection and reset testing also done.
+- Instruction and Data Memory  TB
+	Tests read and write and write protection.
 ### Team
 	> Andres Bravo (afb389)
 	> Archit Jain (aj3944)
