@@ -4,7 +4,7 @@ This project contains an implementation of RISC V in a baysys FPGA containing Ar
 The following components make up the processor
 ## Components
 - Control Unit
-The central unit, fetches and decodes the opcodes and then generates the correct control signals to  control all the other elements of the processor 
+The central unit, fetches and decodes the opcodes and then generates the correct control signals to  control all the other elements of the processor. The central unit, fetches and decodes the opcodes and then generates the correct control signals to  control all the other elements of the processor. One noteworthy design choice for the control unit is that it updates on the falling edge of the clock whereas every other module in our design updates on the rising edge. This was done to make multi-cycling easier where the control unit would updates its control signals in preparation before the next rising edge when the actual state transition takes place in the entire processor.
 - ALU
 Performs basic arithmetic according to the control functions. Purely combinatoric and single cycle. We can perform add, subtract, logical and arithmetic shifting, XOR , AND and also compares. 
 - Register File
