@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:04:56 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Sun Nov 19 04:20:25 2023
+# Process ID: 27558
+# Current directory: /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.runs/synth_1
+# Command line: vivado -log ahd_6463_risc_v.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ahd_6463_risc_v.tcl
+# Log file: /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.runs/synth_1/ahd_6463_risc_v.vds
+# Journal file: /home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.runs/synth_1/vivado.jou
+# Running On: boon, OS: Linux, CPU Frequency: 1381.059 MHz, CPU Physical cores: 4, Host memory: 16429 MB
+#-----------------------------------------------------------
+source ahd_6463_risc_v.tcl -notrace
