@@ -5,11 +5,13 @@ verilog xil_defaultlib  \
 "../../../../riscv_32i.srcs/sim_1/new/mem_instr.v" \
 "../../../../riscv_32i.srcs/sim_1/new/reg_file.v" \
 "../../../../riscv_32i.srcs/sim_1/new/ahd_32i_risc_v.v" \
+"../../../../riscv_32i.srcs/sim_1/new/immGen.v" \
 "../../../../riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v" \
 "../../../../riscv_32i.srcs/sim_1/new/ctrl_unit.v" \
 "../../../../riscv_32i.srcs/sim_1/new/pgrm_cntr.v" \
 "../../../../riscv_32i.srcs/sim_1/new/alu_tb.v" \
 "../../../../riscv_32i.srcs/sim_1/new/control_unit.v" \
+"../../../../riscv_32i.srcs/sim_1/new/immGen_tb.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"
