@@ -1,10 +1,15 @@
 Vivado Simulator v2023.1
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /home/va/Documents/Vivado/2023.1/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot riscv321rv6463_tb_behav xil_defaultlib.riscv321rv6463_tb xil_defaultlib.glbl -log elaborate.log 
+Running: /home/va/Documents/Vivado/2023.1/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot tb_control_unit_behav xil_defaultlib.tb_control_unit xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 16 for port 'LED' [/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/riscv321rv6463_tb.v:34]
 Completed static elaboration
-INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.control_unit
+Compiling module xil_defaultlib.tb_control_unit
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_control_unit_behav
