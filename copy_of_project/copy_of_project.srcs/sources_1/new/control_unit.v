@@ -564,15 +564,15 @@ output reg mux_jalr
                 we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
-                mux_pc = 1'b1;
-                mux_jalr = 1'b0;
+                mux_pc = 1'b0;
             end
             STATE_WB_BT:
             begin
                 we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
-                mux_pc = 1'b0;
+                mux_pc = 1'b1;
+                mux_jalr = 1'b0;
             end
         endcase
     end
