@@ -1,5 +1,5 @@
 #  RISC V 32I FPGA 
-This project contains an implementation of RISC V in a discovery FPGA containing Artix 7. 
+This project contains an implementation of RISC V in a baysys FPGA containing Artix 7. 
 
 The following components make up the processor
 ## Components
