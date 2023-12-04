@@ -5,7 +5,7 @@ input clk,
 input rst,
 input [6:0] opcode,
 input [2:0] funct3,
-input [6:0] funct7,
+input funct7,
 input [31:0] alu_result,
 output reg [2:0] mux_se,
 output reg mux_alu,
@@ -20,7 +20,8 @@ output reg [2:0] mux_load,
 output reg [2:0] mux_wb,
 output reg we_rf,
 output reg mux_pc,
-output reg mux_jalr
+output reg mux_jalr,
+output [31:0] state_reg_test
     );
     
     //assume a max of 32 states for now
@@ -60,15 +61,18 @@ output reg mux_jalr
     localparam STATE_WB_BNT = 5'h1C;
     localparam STATE_WB_BT = 5'h1D;
     
+    localparam STATE_UNUSED_1 = 5'h1F;
+    
     reg [4:0] state_curr, state_next;
     wire branch_taken;
     wire alu_result_bit;
-    assign alu_result_bit = alu_result[0] | alu_result[1] | alu_result[2] | alu_result[3] | alu_result[4] | 
-    alu_result[5] | alu_result[6] | alu_result[7] | alu_result[8] | alu_result[9] | alu_result[10] | alu_result[11] | 
-    alu_result[12] | alu_result[13] | alu_result[14] | alu_result[15] | alu_result[16] | alu_result[17] | alu_result[18] |
-    alu_result[19] | alu_result[20] | alu_result[21] | alu_result[22] | alu_result[23] | alu_result[24] | alu_result[25] |
-    alu_result[26] | alu_result[27] | alu_result[28] | alu_result[29] | alu_result[30] | alu_result[31];
-    assign branch_taken = funct3[2] ? (funct3[0] ? ~alu_result_bit : alu_result_bit) : (funct3[0] ? alu_result_bit : ~alu_result_bit);
+    assign alu_result_bit = ((((alu_result[0] | alu_result[1]) | (alu_result[2] | alu_result[3])) | 
+    ((alu_result[4] | alu_result[5]) | (alu_result[6] | alu_result[7]))) | (((alu_result[8] | alu_result[9]) | 
+    (alu_result[10] | alu_result[11])) | ((alu_result[12] | alu_result[13]) | (alu_result[14] | alu_result[15])))) | 
+    ((((alu_result[16] | alu_result[17]) | (alu_result[18] | alu_result[19])) | ((alu_result[20] | alu_result[21]) | 
+    (alu_result[22] | alu_result[23]))) | (((alu_result[24] | alu_result[25]) | (alu_result[26] | alu_result[27])) | 
+    ((alu_result[28] | alu_result[29]) | (alu_result[30] | alu_result[31]))));
+    assign branch_taken = funct3[2] ? (funct3[0] ? ~alu_result[0] : alu_result[0]) : (funct3[0] ? alu_result_bit : ~alu_result_bit);
     
     //Current state logic
     always@(negedge clk)
@@ -108,7 +112,7 @@ output reg mux_jalr
             begin
                 if(funct3 == 3'b000)
                 begin
-                    if(funct7[5] == 1'b0)
+                    if(funct7 == 1'b0)
                         state_next = STATE_EX_ADD;
                     else
                         state_next = STATE_EX_SUB;
@@ -131,7 +135,7 @@ output reg mux_jalr
                 end
                 else if(funct3 == 3'b101)
                 begin
-                    if(funct7[5] == 1'b0)
+                    if(funct7 == 1'b0)
                         state_next = STATE_EX_SRL;
                     else
                         state_next = STATE_EX_SRA;
@@ -162,7 +166,7 @@ output reg mux_jalr
                     state_next = STATE_EX_XOR;
                 else if(funct3 == 3'b101)
                 begin
-                    if(funct7[5] == 1'b0)
+                    if(funct7 == 1'b0)
                         state_next = STATE_EX_SRL;
                     else
                         state_next = STATE_EX_SRA;
@@ -375,6 +379,13 @@ output reg mux_jalr
                 state_next = STATE_IF_INIT;
             end
             
+            STATE_UNUSED_1:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            default: state_next = state_curr;
+            
         endcase
     end
     
@@ -576,5 +587,6 @@ output reg mux_jalr
             end
         endcase
     end
+    assign state_reg_test = state_curr;
     
 endmodule
