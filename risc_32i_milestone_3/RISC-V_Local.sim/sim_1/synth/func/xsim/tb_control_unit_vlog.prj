@@ -1,0 +1,7 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"tb_control_unit_func_synth.v" \
+"../../../../../RISC-V_Local.srcs/sim_1/new/tb_control_unit.v" \
+
+# Do not sort compile order
+nosort

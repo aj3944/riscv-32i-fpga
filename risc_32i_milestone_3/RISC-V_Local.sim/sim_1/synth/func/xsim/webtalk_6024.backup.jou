@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Dec  3 19:33:52 2023
+# Process ID: 6024
+# Current directory: C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/synth/func/xsim
+# Command line: wbtcv.exe -mode batch -source C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/synth/func/xsim/xsim.dir/tb_control_unit_func_synth/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/synth/func/xsim/webtalk.log
+# Journal file: C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/synth/func/xsim\webtalk.jou
+#-----------------------------------------------------------
+source C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/synth/func/xsim/xsim.dir/tb_control_unit_func_synth/webtalk/xsim_webtalk.tcl -notrace
