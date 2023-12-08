@@ -30,25 +30,25 @@ module tb_control_unit(
     .we_pc(we_pc), .we_store(we_store), .mux_store(mux_store), .mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), 
     .mux_pc(mux_pc), .mux_jalr(mux_jalr), .state_reg_test(state_reg_test));
     
+    localparam T = 100;
     always
     begin
         clk <= 1'b1;
-        #5;
+        #(T/2);
         clk <= 1'b0;
-        #5;
+        #(T/2);
     end
     
     initial
     begin
-        #1000 $finish;
+        #10000 $finish;
     end
     
     initial
     begin
-        #10;
+        #T;
         rst = 1'b1;
-        #10;
-        #10;
+        #T;
         
         //--------------------------Test ADD instruction(R-TYPE)--------------------------
         //IF stage
@@ -56,208 +56,209 @@ module tb_control_unit(
         funct3 = 3'b000;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        alu_result = 32'h0;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: ADD instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0000)
             $error(1, "EX: ADD instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: ADD instruction failed");
-        #10;
+        #T;
             
         //--------------------------Test SUB instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b000;
         funct7 = 1'b1;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SUB instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b1000)
             $error(1, "EX: SUB instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SUB instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test SLL instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b001;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SLL instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0001)
             $error(1, "EX: SLL instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SLL instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test SLT instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b010;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SLT instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0010)
             $error(1, "EX: SLT instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SLT instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test SLTU instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b011;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SLTU instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0011)
             $error(1, "EX: SLTU instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SLTU instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test XOR instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b100;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: XOR instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0100)
             $error(1, "EX: XOR instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: XOR instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test SRL instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b101;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SRL instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0101)
             $error(1, "EX: SRL instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SRL instruction failed");
-        #10;
+        #T;
             
         //--------------------------Test SRA instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b101;
         funct7 = 1'b1;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SRA instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b1101)
             $error(1, "EX: SRA instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SRA instruction failed");
-        #10;
+        #T;
             
         //--------------------------Test OR instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b110;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: OR instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0110)
             $error(1, "EX: OR instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: OR instruction failed");
-        #10;
+        #T;
             
         //--------------------------Test AND instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b111;
         funct7 = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: AND instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0111)
             $error(1, "EX: AND instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: AND instruction failed");
-        #10;
+        #T;
         
         //--------------------------Test JALR instruction(I-TYPE)--------------------------
         //IF stage
         opcode = 7'b1100111;
         funct3 = 3'b000;
-        #10;
+        #T;
         //ID stage
         if((mux_alu !== 1'b1) || (mux_se !== 3'b000))
             $error(1, "ID: JALR instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0000)
             $error(1, "EX: JALR instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b010) || (we_rf !== 1'b1) || (mux_jalr !== 1'b1) || (mux_pc !== 1'b1) || (we_pc !== 1'b1))
             $error(1, "WB: JALR instruction failed");
-        #10;
+        #T;
         
         //--------------------------XORI instruction(I-TYPE)--------------------------
         //IF stage
@@ -265,79 +266,79 @@ module tb_control_unit(
         funct3 = 3'b100;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b1 || mux_se !== 3'b000)
             $error(1, "ID: XORI instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0100)
             $error(1, "EX: XORI instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: XORI instruction failed");
-        #10;
+        #T;
         
         //--------------------------BEQ instruction(B-TYPE) (branch not taken)--------------------------
         //IF stage
         opcode = 7'b1100011;
         funct3 = 3'b000;
-        #10;
+        #T;
         //ID stage
         if((mux_alu !== 1'b1) || (mux_se !== 3'b010))
             $error(1, "ID: BEQ instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b1000)
             $error(1, "EX: BEQ instruction failed");
         alu_result = 32'h1;
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (we_rf !== 1'b0) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: BEQ instruction failed");
-        #10;
+        #T;
         
         //--------------------------BEQ instruction(B-TYPE) (branch taken)--------------------------
         //IF stage
         opcode = 7'b1100011;
         funct3 = 3'b000;
-        #10;
+        #T;
         //ID stage
         if((mux_alu !== 1'b1) || (mux_se !== 3'b010))
             $error(1, "ID: BEQ instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b1000)
             $error(1, "EX: BEQ instruction failed");
         alu_result = 32'h0;
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (we_rf !== 1'b0) || (mux_jalr !== 1'b0) || (mux_pc !== 1'b1) || (we_pc !== 1'b1))
             $error(1, "WB: BEQ instruction failed");
-        #10;
+        #T;
         
         //--------------------------LW instruction(I-TYPE)--------------------------
         //IF stage
         opcode = 7'b0000011;
         funct3 = 3'b010;
-        #10;
+        #T;
         //ID stage
         if((mux_se !== 3'b000) || (mux_alu !== 1'b1))
             $error(1, "ID: LW instruction failed");
-        #10;
+        #T;
         //EX stage
         if((aluop !== 4'b0000) || (we_alu !== 1'b1))
             $error(1, "EX: LW instruction failed");
-        #10;
+        #T;
         //MEM stage
         if((we_result !== 1'b1) || (mux_load !== 3'b010))
             $error(1, "MEM: LW instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b001) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: LW instruction failed");
-        #10;
+        #T;
         
         //--------------------------SH instruction(S-TYPE)--------------------------
         //IF stage
@@ -345,19 +346,19 @@ module tb_control_unit(
         funct3 = 3'b001;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b1 || mux_se !== 3'b001)
             $error(1, "ID: SH instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b0000)
             $error(1, "EX: SH instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (we_dmem !== 1'b1) || (we_pc !== 1'b1) || (we_store !== 1'b1))
             $error(1, "MEM: SH instruction failed");
-        #10;
+        #T;
 
         //--------------------------LUI instruction(U-TYPE)--------------------------
         //IF stage
@@ -365,11 +366,11 @@ module tb_control_unit(
         funct3 = 3'b000;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        #T;
         //ID stage
         if((mux_wb !== 3'b011) || (we_rf !== 1'b1))
             $error(1, "ID: LUI instruction failed");
-        #10;
+        #T;
 
         //--------------------------AUIPC instruction(U-TYPE)--------------------------
         //IF stage
@@ -377,11 +378,11 @@ module tb_control_unit(
         funct3 = 3'b000;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        #T;
         //ID stage
         if((mux_wb !== 3'b100) || (we_rf !== 1'b1))
             $error(1, "ID: AUIPC instruction failed");
-        #10;
+        #T;
 
         //--------------------------JAL instruction(J-TYPE)--------------------------
         //IF stage
@@ -389,30 +390,30 @@ module tb_control_unit(
         funct3 = 3'b000;
         funct7 = 1'b0;
         rst = 1'b0;
-        #10;
+        #T;
         //ID stage
         if((mux_wb !== 3'b010) || (we_rf !== 1'b1) || (mux_se !== 3'b000) ||(mux_jalr !== 1'b0))
             $error(1, "ID: JAL instruction failed");
-        #10;
+        #T;
             
         //--------------------------Test SUB instruction(R-TYPE)--------------------------
         //IF stage
         opcode = 7'b0110011;
         funct3 = 3'b000;
         funct7 = 1'b1;
-        #10;
+        #T;
         //ID stage
         if(mux_alu !== 1'b0)
             $error(1, "ID: SUB instruction failed");
-        #10;
+        #T;
         //EX stage
         if(aluop !== 4'b1000)
             $error(1, "EX: SUB instruction failed");
-        #10;
+        #T;
         //WB stage
         if((we_result !== 1'b1) || (mux_wb !== 3'b000) || (we_rf !== 1'b1) || (mux_pc !== 1'b0) || (we_pc !== 1'b1))
             $error(1, "WB: SUB instruction failed");
-        #10;
+        #T;
         
         $display("All tests passed");
             

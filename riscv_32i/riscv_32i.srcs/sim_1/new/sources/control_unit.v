@@ -21,7 +21,7 @@ output reg [2:0] mux_wb,
 output reg we_rf,
 output reg mux_pc,
 output reg mux_jalr,
-output [31:0] state_reg_test
+output [4:0] state_reg_test
     );
     
     //assume a max of 32 states for now

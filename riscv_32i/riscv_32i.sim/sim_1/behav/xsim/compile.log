@@ -1,4 +1,28 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/verilog_test/control_unit.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/reg_file.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reg_file
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_instr_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_instr_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_data_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_data_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_RV32I.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_RV32I
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/control_unit.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module control_unit
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/verilog_test/tb_control_unit.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/instr_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module instr_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/RV32I.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module RV32I
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/data_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module data_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_control_unit.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb_control_unit
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_imm_gen.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_imm_gen
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_alu.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_alu
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_reg_file.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_reg_file
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/alu.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module alu
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/Proj/riscv_32i/riscv_32i.srcs/sim_1/new/sources/imm_gen.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module imm_gen

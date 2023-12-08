@@ -1,4 +1,6 @@
-module immGen (
+`timescale 1ns / 1ps
+
+module imm_gen (
     input [31:0] instruction,
     input [2:0] immSel,
     output [31:0] imm

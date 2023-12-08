@@ -1,6 +1,6 @@
 `timescale 1ps/1ps
 
-module immGen_tb;
+module tb_imm_gen;
 
 parameter TESTAMOUNT = 2700;
 parameter VERBOSE = 0;
@@ -18,14 +18,14 @@ integer i;
 integer j;
 
 // Instantiate the Unit Under Test (UUT)
-immGen uut (
+imm_gen uut (
     .instruction(instruction),
     .immSel(immSel),
     .imm(imm)
 );
 
 initial begin
-    file = $fopen("immgen_tb.txt", "r");
+    file = $fopen("tb_imm_gen.txt", "r");
     i = 0;
     while (!$feof(file)) begin
         // reads binary numbers from file in format "32'b 10'b"
