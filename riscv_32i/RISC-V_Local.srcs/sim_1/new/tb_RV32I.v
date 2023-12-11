@@ -20,22 +20,13 @@ module tb_RV32I(
         #(T/2);
     end
     
-    initial
-    begin
-        #500 $finish;
-    end
     
     initial
     begin
         rst = 1'b1;
         #100;
         rst = 1'b0;
-        #T;
-        #T;
-        #T;
-        #T;
-        #T;
-        #T;
+        #10000;
     end
     
 endmodule
