@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/verilog_test/control_unit.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module control_unit
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/va/Documents/MsCE/verilog_test/tb_control_unit.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_control_unit
