@@ -24,7 +24,7 @@ module tb_RV32I(
     initial
     begin
         rst = 1'b1;
-        #100;
+        #20;
         rst = 1'b0;
         #10000;
     end

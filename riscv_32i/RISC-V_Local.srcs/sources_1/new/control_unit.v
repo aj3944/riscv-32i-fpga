@@ -414,21 +414,25 @@ output [4:0] state_reg_test
             STATE_ID_RTYPE:
             begin
                 mux_alu = 1'b0;
+                we_alu = 1'b1;
             end
             STATE_ID_ITYPE:
             begin
                 mux_alu = 1'b1;
                 mux_immSel = 3'b000;
+                we_alu = 1'b1;
             end
             STATE_ID_BTYPE:
             begin
                 mux_alu = 1'b1;
                 mux_immSel = 3'b001;
+                we_alu = 1'b1;
             end
             STATE_ID_STYPE:
             begin
                 mux_immSel = 3'b010;
                 mux_alu = 1'b1;
+                we_alu = 1'b1;
             end
             STATE_ID_JTYPE:
             begin
@@ -442,91 +446,89 @@ output [4:0] state_reg_test
                 mux_immSel = 3'b100;
                 mux_wb = 3'b011;
                 we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_pc = 1'b0;
             end
             STATE_ID_AUIPC:
             begin
                 mux_immSel = 3'b100;
                 mux_wb = 3'b100;
                 we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_pc = 1'b0;
             end
             STATE_EX_ADD:
             begin
                 aluop = 4'b0000;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SUB:
             begin
                 aluop = 4'b1000;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLL:
             begin
                 aluop = 4'b0001;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLT:
             begin
                 aluop = 4'b0010;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLTU:
             begin
                 aluop = 4'b0011;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_XOR:
             begin
                 aluop = 4'b0100;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SRL:
             begin
                 aluop = 4'b0101;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SRA:
             begin
                 aluop = 4'b1101;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_OR:
             begin
                 aluop = 4'b0110;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_AND:
             begin
                 aluop = 4'b0111;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_MEM_LB:
             begin
-                we_result = 1'b1;
                 mux_load = 3'b000;
             end
             STATE_MEM_LH:
             begin
-                we_result = 1'b1;
                 mux_load = 3'b001;
             end
             STATE_MEM_LW:
             begin
-                we_result = 1'b1;
                 mux_load = 3'b010;
             end
             STATE_MEM_LBU:
             begin
-                we_result = 1'b1;
                 mux_load = 3'b011;
             end
             STATE_MEM_LHU:
             begin
-                we_result = 1'b1;
                 mux_load = 3'b100;
             end
             STATE_MEM_SB:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
@@ -535,7 +537,6 @@ output [4:0] state_reg_test
             end
             STATE_MEM_SH:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
@@ -544,7 +545,6 @@ output [4:0] state_reg_test
             end
             STATE_MEM_SW:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
@@ -558,7 +558,6 @@ output [4:0] state_reg_test
             end
             STATE_WB_GEN:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb = 3'b000;
@@ -566,7 +565,6 @@ output [4:0] state_reg_test
             end
             STATE_WB_LOAD:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb =3'b001;
@@ -574,7 +572,6 @@ output [4:0] state_reg_test
             end
             STATE_WB_JALR:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb = 3'b010;
@@ -583,14 +580,12 @@ output [4:0] state_reg_test
             end
             STATE_WB_BNT:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
             end
             STATE_WB_BT:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
                 mux_pc = 1'b1;
