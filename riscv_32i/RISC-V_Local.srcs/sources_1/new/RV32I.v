@@ -28,6 +28,7 @@ wire we_dmem;
 wire we_pc;
 wire we_store;
 wire [1:0] mux_store;
+wire we_loadMem;
 wire [2:0] mux_load;
 wire [2:0] mux_wb;
 wire we_rf;
@@ -37,8 +38,8 @@ control_unit control_unit(.clk(clk), .rst(rst), .opcode(imem_dout[6:0]), .funct3
 .funct7(imem_dout[30]), .alu_result(alu_out_pre), .addr_valid(addr_valid), .addr_reserved(addr_reserved), 
 .addr_ro(addr_ro), .mux_immSel(mux_immSel), .mux_alu(mux_alu), .we_alu(we_alu), .aluop(aluop), 
 .we_result(we_result), .we_dmem(we_dmem), .we_pc(we_pc), .we_store(we_store), .mux_store(mux_store), 
-.mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), .mux_pc(mux_pc), .mux_jalr(mux_jalr), 
-.state_reg_test(computer_state));
+.we_loadMem(we_loadMem), .mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), .mux_pc(mux_pc), 
+.mux_jalr(mux_jalr), .state_reg_test(computer_state));
 
 //Instantiate immediate generator
 wire [31:0] immediate;
@@ -78,13 +79,19 @@ addr_controller addr_controller(.alu_result(alu_out_pre), .addr_valid(addr_valid
 
 //Instantiate data memory
 wire [31:0] dmem_dataIn, dmem_dout;
-data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .we(we_dmem), .addr(alu_out_reg[15:2]), //Double check this
+data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .we(we_dmem), .addr(alu_out_pre[15:2]), //Double check this
 .dataIn(dmem_dataIn), .dout(dmem_dout));
 
 //Load instructions mux
-wire [31:0] load_data;
-assign load_data = mux_load[2] ? {16'h0, dmem_dout[15:0]} : (mux_load[1] ? (mux_load[0] ? {24'h0, dmem_dout[7:0]} : 
+wire [31:0] load_data_pre;
+reg [31:0] load_data_reg;
+assign load_data_pre = mux_load[2] ? {16'h0, dmem_dout[15:0]} : (mux_load[1] ? (mux_load[0] ? {24'h0, dmem_dout[7:0]} : 
 (dmem_dout)) : (mux_load[0] ? { {16{dmem_dout[15]}}, dmem_dout[15:0] }: { {24{dmem_dout[7]}}, dmem_dout[7:0] }));
+always@(posedge clk)
+begin
+    if(we_loadMem)
+        load_data_reg <= load_data_pre;
+end
 
 //Store instructions mux
 reg [31:0] store_data;
@@ -122,7 +129,7 @@ wire [31:0] mux_wb_entry_3, mux_wb_entry_4;
 assign mux_wb_entry_3 = {imem_dout[31:12], 12'b0};
 assign mux_wb_entry_4 = pc_reg + {imem_dout[31:12], 12'b0};
 assign reg_write_data = mux_wb[2] ? mux_wb_entry_4 : (mux_wb[1] ? (mux_wb[0] ? mux_wb_entry_3 : 
-pc4) : (mux_wb[0] ? load_data : alu_out_reg));
+pc4) : (mux_wb[0] ? load_data_reg : alu_out_reg));
 
 //Temporary Output
 assign data_memory = dmem_dout;
