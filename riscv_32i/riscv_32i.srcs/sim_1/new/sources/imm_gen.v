@@ -8,18 +8,15 @@ module imm_gen (
 
 reg [31:0] res;
 
-localparam U_type = 3'b000;
-localparam J_type = 3'b001;
-localparam B_type = 3'b010;
-localparam I_type_notSE = 3'b011;
-localparam I_type_SE = 3'b100;
-localparam S_type = 3'b101;
+localparam I_type= 3'b000;
+localparam B_type = 3'b001;
+localparam S_type = 3'b010;
+localparam J_type = 3'b011;
+localparam U_type = 3'b100;
 
-initial begin
-    res = 0;
-end
 
-always @ * begin
+always @(*) begin
+    res = 3'b000;
     case(immSel)
         U_type: //not signed extended
             res = {instruction[31:12], 12'b0};
@@ -35,9 +32,7 @@ always @ * begin
             end else begin
                 res = {19'b0, instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'b0};
             end
-        I_type_notSE: //maybe signed extended
-            res = {20'b0, instruction[31:20]};
-        I_type_SE: //signed extended
+        I_type: //signed extended
             if(instruction[31] == 1'b1) begin
                 res = {20'b11111111111111111111, instruction[31:20]};
             end else begin

@@ -1,0 +1,19 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+C:/Users/User/RISC-V_Local/RISC-V_Local.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,,,,,,,
+,,,,,,tb_RV32I,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_addr_controller.v,1702262403,verilog,,,,tb_addr_controller,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_alu.v,1701984230,verilog,,,,tb_alu,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_control_unit.v,1701654970,verilog,,,,tb_control_unit,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_data_mem.v,1701895386,verilog,,,,tb_data_mem,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_reg_file.v,1702227442,verilog,,,,tb_reg_file,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/RV32I.v,1702266243,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/addr_controller.v,,RV32I,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/addr_controller.v,1702262191,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/alu.v,,addr_controller,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/alu.v,1701988226,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v,,alu,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v,1701655759,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v,,control_unit,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v,1701895235,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/imm_gen.v,,data_mem,,,,,,,,
+,,,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr_mem.v,,imm_gen,,,,,,,,
+,,,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/reg_file.v,,instr_mem,,,,,,,,
+C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/reg_file.v,1702226490,verilog,,C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sim_1/new/tb_RV32I.v,,reg_file,,,,,,,,

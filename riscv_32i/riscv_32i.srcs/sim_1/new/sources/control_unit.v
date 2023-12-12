@@ -7,7 +7,10 @@ input [6:0] opcode,
 input [2:0] funct3,
 input funct7,
 input [31:0] alu_result,
-output reg [2:0] mux_se,
+input addr_valid,
+input addr_reserved,
+input addr_ro,
+output reg [2:0] mux_immSel,
 output reg mux_alu,
 output reg we_alu,
 output reg [3:0] aluop,
@@ -16,6 +19,7 @@ output reg we_dmem,
 output reg we_pc,
 output reg we_store,
 output reg [1:0] mux_store,
+output reg we_loadMem,
 output reg [2:0] mux_load,
 output reg [2:0] mux_wb,
 output reg we_rf,
@@ -55,23 +59,18 @@ output [4:0] state_reg_test
     localparam STATE_MEM_SH = 5'h17;
     localparam STATE_MEM_SW = 5'h18;
     
+    localparam STATE_MEM_WB_NOP = 5'h1F;
+    
     localparam STATE_WB_GEN = 5'h19;
     localparam STATE_WB_LOAD = 5'h1A;
     localparam STATE_WB_JALR = 5'h1B;
     localparam STATE_WB_BNT = 5'h1C;
     localparam STATE_WB_BT = 5'h1D;
     
-    localparam STATE_UNUSED_1 = 5'h1F;
-    
     reg [4:0] state_curr, state_next;
     wire branch_taken;
     wire alu_result_bit;
-    assign alu_result_bit = ((((alu_result[0] | alu_result[1]) | (alu_result[2] | alu_result[3])) | 
-    ((alu_result[4] | alu_result[5]) | (alu_result[6] | alu_result[7]))) | (((alu_result[8] | alu_result[9]) | 
-    (alu_result[10] | alu_result[11])) | ((alu_result[12] | alu_result[13]) | (alu_result[14] | alu_result[15])))) | 
-    ((((alu_result[16] | alu_result[17]) | (alu_result[18] | alu_result[19])) | ((alu_result[20] | alu_result[21]) | 
-    (alu_result[22] | alu_result[23]))) | (((alu_result[24] | alu_result[25]) | (alu_result[26] | alu_result[27])) | 
-    ((alu_result[28] | alu_result[29]) | (alu_result[30] | alu_result[31]))));
+    assign alu_result_bit = |alu_result;
     assign branch_taken = funct3[2] ? (funct3[0] ? ~alu_result[0] : alu_result[0]) : (funct3[0] ? alu_result_bit : ~alu_result_bit);
     
     //Current state logic
@@ -152,7 +151,9 @@ output [4:0] state_reg_test
             
             STATE_ID_ITYPE:
             begin
-                if(opcode == 7'b0000011)
+                if(opcode == 7'b0000011) //LOAD instructions
+                    state_next = STATE_EX_ADD;
+                else if(opcode == 7'b0001111) //FENCE instruction
                     state_next = STATE_EX_ADD;
                 else if(funct3 == 3'b000)
                     state_next = STATE_EX_ADD;
@@ -218,6 +219,8 @@ output [4:0] state_reg_test
                 if(opcode == 7'b0000011)
                 //load
                 begin
+//                    if(~(addr_valid | addr_reserved))
+//                        state_next = STATE_MEM_WB_NOP;
                     if(funct3 == 3'b000)
                         state_next = STATE_MEM_LB;
                     else if(funct3 == 3'b001)
@@ -232,6 +235,8 @@ output [4:0] state_reg_test
                 else if(opcode == 7'b0100011)
                 //store
                 begin
+//                    if(addr_ro | ~(addr_valid | addr_reserved))
+//                        state_next = STATE_MEM_WB_NOP;
                     if(funct3 == 3'b000)
                         state_next = STATE_MEM_SB;
                     else if(funct3 == 3'b001)
@@ -239,6 +244,8 @@ output [4:0] state_reg_test
                     else
                         state_next = STATE_MEM_SW;
                 end
+                else if(opcode == 7'b0001111)
+                    state_next = STATE_MEM_WB_NOP; //FENCE
                 else if(opcode == 7'b1100111)
                     state_next = STATE_WB_JALR;
                 else
@@ -354,6 +361,11 @@ output [4:0] state_reg_test
                 state_next = STATE_IF_INIT;
             end
             
+            STATE_MEM_WB_NOP:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
             STATE_WB_GEN:
             begin
                 state_next = STATE_IF_INIT;
@@ -375,11 +387,6 @@ output [4:0] state_reg_test
             end
             
             STATE_WB_BNT:
-            begin
-                state_next = STATE_IF_INIT;
-            end
-            
-            STATE_UNUSED_1:
             begin
                 state_next = STATE_IF_INIT;
             end
@@ -392,7 +399,7 @@ output [4:0] state_reg_test
     //Output Logic
     always@(*)
     begin
-        mux_se = 3'b000;
+        mux_immSel = 3'b000;
         mux_alu = 1'b0;
         we_alu = 1'b0;
         aluop = 4'b0000;
@@ -401,6 +408,7 @@ output [4:0] state_reg_test
         we_pc = 1'b0;
         we_store = 1'b0;
         mux_store = 2'b00;
+        we_loadMem = 1'b0;
         mux_load = 3'b010;
         mux_wb = 3'b000;
         we_rf = 1'b0;
@@ -413,141 +421,157 @@ output [4:0] state_reg_test
             STATE_ID_RTYPE:
             begin
                 mux_alu = 1'b0;
+                we_alu = 1'b1;
             end
             STATE_ID_ITYPE:
             begin
                 mux_alu = 1'b1;
-                mux_se = 3'b000;
+                mux_immSel = 3'b000;
+                we_alu = 1'b1;
             end
             STATE_ID_BTYPE:
             begin
                 mux_alu = 1'b1;
-                mux_se = 3'b010;
+                mux_immSel = 3'b001;
+                we_alu = 1'b1;
             end
             STATE_ID_STYPE:
             begin
-                mux_se = 3'b001;
+                mux_immSel = 3'b010;
                 mux_alu = 1'b1;
+                we_alu = 1'b1;
             end
             STATE_ID_JTYPE:
             begin
-                mux_se = 3'b000;
+                mux_immSel = 3'b011;
+                mux_pc = 1'b1;
+                we_pc = 1'b1;
                 mux_jalr = 1'b0;
                 mux_wb = 3'b010;
                 we_rf = 1'b1;
             end
             STATE_ID_LUI:
             begin
+                mux_immSel = 3'b100;
                 mux_wb = 3'b011;
                 we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_pc = 1'b0;
             end
             STATE_ID_AUIPC:
             begin
+                mux_immSel = 3'b100;
                 mux_wb = 3'b100;
                 we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_pc = 1'b0;
             end
             STATE_EX_ADD:
             begin
                 aluop = 4'b0000;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SUB:
             begin
                 aluop = 4'b1000;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLL:
             begin
                 aluop = 4'b0001;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLT:
             begin
                 aluop = 4'b0010;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SLTU:
             begin
                 aluop = 4'b0011;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_XOR:
             begin
                 aluop = 4'b0100;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SRL:
             begin
                 aluop = 4'b0101;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_SRA:
             begin
                 aluop = 4'b1101;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_OR:
             begin
                 aluop = 4'b0110;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_EX_AND:
             begin
                 aluop = 4'b0111;
-                we_alu = 1'b1;
+                we_result = 1'b1;
             end
             STATE_MEM_LB:
             begin
-                we_result = 1'b1;
+                we_loadMem = 1'b1;
                 mux_load = 3'b000;
             end
             STATE_MEM_LH:
             begin
-                we_result = 1'b1;
+                we_loadMem = 1'b1;
                 mux_load = 3'b001;
             end
             STATE_MEM_LW:
             begin
-                we_result = 1'b1;
+                we_loadMem = 1'b1;
                 mux_load = 3'b010;
             end
             STATE_MEM_LBU:
             begin
-                we_result = 1'b1;
+                we_loadMem = 1'b1;
                 mux_load = 3'b011;
             end
             STATE_MEM_LHU:
             begin
-                we_result = 1'b1;
+                we_loadMem = 1'b1;
                 mux_load = 3'b100;
             end
             STATE_MEM_SB:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
+                mux_pc = 1'b0;
                 mux_store = 2'b01;
             end
             STATE_MEM_SH:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
+                mux_pc = 1'b0;
                 mux_store = 2'b10;
             end
             STATE_MEM_SW:
             begin
-                we_result = 1'b1;
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 we_store = 1'b1; //reg in front of DMEM
+                mux_pc = 1'b0;
                 mux_store = 2'b00;
+            end
+            STATE_MEM_WB_NOP:
+            begin
+                we_pc = 1'b1;
+                mux_pc = 1'b0;
             end
             STATE_WB_GEN:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb = 3'b000;
@@ -555,7 +579,6 @@ output [4:0] state_reg_test
             end
             STATE_WB_LOAD:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb =3'b001;
@@ -563,7 +586,6 @@ output [4:0] state_reg_test
             end
             STATE_WB_JALR:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb = 3'b010;
@@ -572,14 +594,12 @@ output [4:0] state_reg_test
             end
             STATE_WB_BNT:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
             end
             STATE_WB_BT:
             begin
-                we_result = 1'b1;
                 we_rf = 1'b0;
                 we_pc = 1'b1;
                 mux_pc = 1'b1;
