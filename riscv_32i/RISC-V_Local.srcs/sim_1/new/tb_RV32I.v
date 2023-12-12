@@ -28,14 +28,13 @@ module tb_RV32I(
     initial
     begin
         rst = 1'b1;
-        #100;
+        #50;
         rst = 1'b0;
         #T;
-        #T;
-        #T;
-        #T;
-        #T;
-        #T;
+        //addi $7, $0, 7
+        //addi $1, $0, 3
+        //add $8, $1, $7
+        //
     end
     
 endmodule

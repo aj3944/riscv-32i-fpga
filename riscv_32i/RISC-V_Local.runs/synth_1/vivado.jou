@@ -2,11 +2,11 @@
 # Vivado v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Sun Dec 10 16:37:47 2023
-# Process ID: 3808
+# Start of session at: Mon Dec 11 11:31:07 2023
+# Process ID: 10480
 # Current directory: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1
-# Command line: vivado.exe -log data_mem.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source data_mem.tcl
-# Log file: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1/data_mem.vds
+# Command line: vivado.exe -log RV32I.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RV32I.tcl
+# Log file: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1/RV32I.vds
 # Journal file: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
-source data_mem.tcl -notrace
+source RV32I.tcl -notrace

@@ -59,12 +59,9 @@ module tb_control_unit(
         funct7 = 1'b0;
         rst = 1'b0;
         alu_result = 32'h0;
-<<<<<<<< HEAD:riscv_32i/riscv_32i.srcs/sim_1/new/testbenches/tb_control_unit.v
-========
         addr_valid = 1'b1;
         addr_reserved = 1'b0;
         addr_ro = 1'b0;
->>>>>>>> m4:riscv_32i/RISC-V_Local.srcs/sim_1/new/tb_control_unit.v
         #T;
         //ID stage
         if(mux_alu !== 1'b0)
