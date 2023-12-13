@@ -19,7 +19,6 @@ output reg we_dmem,
 output reg we_pc,
 output reg we_store,
 output reg [1:0] mux_store,
-output reg we_loadMem,
 output reg [2:0] mux_load,
 output reg [2:0] mux_wb,
 output reg we_rf,
@@ -408,7 +407,6 @@ output [4:0] state_reg_test
         we_pc = 1'b0;
         we_store = 1'b0;
         mux_store = 2'b00;
-        we_loadMem = 1'b0;
         mux_load = 3'b010;
         mux_wb = 3'b000;
         we_rf = 1'b0;
@@ -470,6 +468,7 @@ output [4:0] state_reg_test
             begin
                 aluop = 4'b0000;
                 we_result = 1'b1;
+                we_store = 1'b1;
             end
             STATE_EX_SUB:
             begin
@@ -518,34 +517,28 @@ output [4:0] state_reg_test
             end
             STATE_MEM_LB:
             begin
-                we_loadMem = 1'b1;
                 mux_load = 3'b000;
             end
             STATE_MEM_LH:
             begin
-                we_loadMem = 1'b1;
                 mux_load = 3'b001;
             end
             STATE_MEM_LW:
             begin
-                we_loadMem = 1'b1;
                 mux_load = 3'b010;
             end
             STATE_MEM_LBU:
             begin
-                we_loadMem = 1'b1;
                 mux_load = 3'b011;
             end
             STATE_MEM_LHU:
             begin
-                we_loadMem = 1'b1;
                 mux_load = 3'b100;
             end
             STATE_MEM_SB:
             begin
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
-                we_store = 1'b1; //reg in front of DMEM
                 mux_pc = 1'b0;
                 mux_store = 2'b01;
             end
@@ -553,7 +546,6 @@ output [4:0] state_reg_test
             begin
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
-                we_store = 1'b1; //reg in front of DMEM
                 mux_pc = 1'b0;
                 mux_store = 2'b10;
             end
@@ -561,7 +553,6 @@ output [4:0] state_reg_test
             begin
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
-                we_store = 1'b1; //reg in front of DMEM
                 mux_pc = 1'b0;
                 mux_store = 2'b00;
             end
