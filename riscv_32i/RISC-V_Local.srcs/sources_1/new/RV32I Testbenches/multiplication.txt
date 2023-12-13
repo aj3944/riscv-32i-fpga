@@ -1,0 +1,32 @@
+//Program description
+lui x9, 0x80000
+lw x1, 16(x9) //load from switches
+lw x2, 24(x9)
+addi x7, x0, 0
+beq x0, x2, 16
+add x7, x7, x1
+addi x2, x2, -1
+jal x0, -12
+sw x7, 20(x9) //load to LEDs
+ecall
+
+//Program encoding
+800004b7
+0104a083
+0184a103
+00000393
+00200863
+001383b3
+fff10113
+ff5ff06f
+0074aa23
+00000073
+
+//Data memory setup
+16983560
+14244527
+19994259
+00000000
+00000006 //operand 1
+00000000
+00000003 //operand 2
