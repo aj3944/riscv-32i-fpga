@@ -429,8 +429,7 @@ output [4:0] state_reg_test
             end
             STATE_ID_BTYPE:
             begin
-                mux_alu = 1'b1;
-                mux_immSel = 3'b001;
+                mux_alu = 1'b0;
                 we_alu = 1'b1;
             end
             STATE_ID_STYPE:
@@ -595,6 +594,7 @@ output [4:0] state_reg_test
                 we_pc = 1'b1;
                 mux_pc = 1'b1;
                 mux_jalr = 1'b0;
+                mux_immSel = 3'b001;
             end
         endcase
     end
