@@ -138,15 +138,10 @@ always @(posedge clk)
 begin
     if(rst)
         leds <= 16'h0000;
-    else if (alu_out_reg[15:2] == 32'h0x00100014 && we_dmem)
+    else if (alu_out_reg[15:2] == 32'h00100014 && we_dmem)
         leds <= dmem_dataIn[15:0];
-    else
-        leds <= leds;
 end
 
-dmem_dout
-
-
-
+assign dmem_out = (alu_out_reg[15:2] == 32'h00100010) ? switches : d_mem_temp;
 
 endmodule
