@@ -9,6 +9,11 @@ output [31:0] r7_out,
 output [31:0] r8_out
     );
 
+// Switches and LEDS
+reg [15:0] leds;
+reg [15:0] switches;
+wire [15:0] d_mem_temp;
+
 //Instantiate instruction memory and signals
 wire [13:0] imem_addr;
 wire [31:0] imem_dataIn;
@@ -79,7 +84,7 @@ addr_controller addr_controller(.alu_result(alu_out_pre), .addr_valid(addr_valid
 //Instantiate data memory
 wire [31:0] dmem_dataIn, dmem_dout;
 data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .we(we_dmem), .addr(alu_out_reg[15:2]), //Double check this
-.dataIn(dmem_dataIn), .dout(dmem_dout));
+.dataIn(dmem_dataIn), .dout(d_mem_temp));
 
 //Load instructions mux
 wire [31:0] load_data_pre;
@@ -126,5 +131,17 @@ pc_adder_post) : (mux_wb[0] ? load_data_pre : alu_out_reg));
 
 //Temporary Output
 assign data_memory = dmem_dout;
+
+//LEDs and switches
+
+always @(posedge clk)
+begin
+    if(rst)
+        leds <= 16'h0000;
+    else if (alu_out_reg[15:2] == 32'h00100014 && we_dmem)
+        leds <= dmem_dataIn[15:0];
+end
+
+assign dmem_out = (alu_out_reg[15:2] == 32'h00100010) ? switches : d_mem_temp;
 
 endmodule
