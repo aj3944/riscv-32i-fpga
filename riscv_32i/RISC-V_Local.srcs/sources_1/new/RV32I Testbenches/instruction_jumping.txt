@@ -11,7 +11,7 @@ ecall
 
 //Expected outputs
 x7 = 0x0100000c
-x8 = 0x000000ff
+x8 = 0xffffffff
 
 //Program encoding
 00000097
