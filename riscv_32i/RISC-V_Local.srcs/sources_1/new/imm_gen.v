@@ -21,29 +21,13 @@ always @(*) begin
         U_type: //not signed extended
             res = {instruction[31:12], 12'b0};
         J_type: //signed extended
-            if(instruction[31] == 1'b1) begin
-                res = {12'b111111111111, instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0};
-            end else begin
-                res = {12'b0, instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0};
-            end
+            res = $signed({instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0});
         B_type: // signed extended
-            if(instruction[31] == 1'b1) begin
-                res = {19'b1111111111111111111, instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'b0};
-            end else begin
-                res = {19'b0, instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'b0};
-            end
+            res = $signed({instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'b0});
         I_type: //signed extended
-            if(instruction[31] == 1'b1) begin
-                res = {20'b11111111111111111111, instruction[31:20]};
-            end else begin
-                res = {20'b0, instruction[31:20]};
-            end
+            res = $signed(instruction[31:20]);
         S_type: //signed extended
-            if(instruction[31] == 1'b1) begin
-                res = {20'b11111111111111111111, instruction[31:25], instruction[11:7]};
-            end else begin
-                res = {20'b0, instruction[31:25], instruction[11:7]};
-            end
+            res = $signed({instruction[31:25], instruction[11:7] });
     endcase
 end
 

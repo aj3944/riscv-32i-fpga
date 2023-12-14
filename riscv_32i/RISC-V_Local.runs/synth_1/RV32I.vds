@@ -1,131 +1,111 @@
 #-----------------------------------------------------------
-# Vivado v2020.2 (64-bit)
-# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
-# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Mon Dec 11 11:31:07 2023
-# Process ID: 10480
-# Current directory: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1
-# Command line: vivado.exe -log RV32I.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RV32I.tcl
-# Log file: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1/RV32I.vds
-# Journal file: C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1\vivado.jou
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:04:56 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Thu Dec 14 01:02:18 2023
+# Process ID: 24116
+# Current directory: /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.runs/synth_1
+# Command line: vivado -log RV32I.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RV32I.tcl
+# Log file: /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.runs/synth_1/RV32I.vds
+# Journal file: /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.runs/synth_1/vivado.jou
+# Running On: boon, OS: Linux, CPU Frequency: 905.702 MHz, CPU Physical cores: 4, Host memory: 16429 MB
 #-----------------------------------------------------------
 source RV32I.tcl -notrace
-create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1106.301 ; gain = 0.000
+create_project: Time (s): cpu = 00:00:14 ; elapsed = 00:00:13 . Memory (MB): peak = 1346.734 ; gain = 0.023 ; free physical = 176 ; free virtual = 11055
 Command: synth_design -top RV32I -part xc7a35tcpg236-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Device 21-403] Loading part xc7a35tcpg236-1
-INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 4720
+INFO: [Synth 8-7075] Helper process launched with PID 24200
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:13 . Memory (MB): peak = 1131.543 ; gain = 25.242
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2023.637 ; gain = 379.770 ; free physical = 164 ; free virtual = 10174
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'RV32I' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/RV32I.v:3]
-INFO: [Synth 8-6157] synthesizing module 'instr_mem' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr_mem.v:10]
+INFO: [Synth 8-6157] synthesizing module 'RV32I' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/RV32I.v:3]
+INFO: [Synth 8-6157] synthesizing module 'instr_mem' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/instr_mem.v:10]
 	Parameter ADDR_WIDTH bound to: 14 - type: integer 
 	Parameter DATA_WIDTH bound to: 32 - type: integer 
-INFO: [Synth 8-3876] $readmem data file 'instr.mem' is read successfully [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr_mem.v:22]
-INFO: [Synth 8-6155] done synthesizing module 'instr_mem' (1#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr_mem.v:10]
-INFO: [Synth 8-6157] synthesizing module 'control_unit' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v:3]
-	Parameter STATE_IF_INIT bound to: 5'b00000 
-	Parameter STATE_ID_RTYPE bound to: 5'b00001 
-	Parameter STATE_ID_ITYPE bound to: 5'b00010 
-	Parameter STATE_ID_BTYPE bound to: 5'b00011 
-	Parameter STATE_ID_STYPE bound to: 5'b00100 
-	Parameter STATE_ID_JTYPE bound to: 5'b00101 
-	Parameter STATE_ID_LUI bound to: 5'b00110 
-	Parameter STATE_ID_AUIPC bound to: 5'b11110 
-	Parameter STATE_EX_ADD bound to: 5'b00111 
-	Parameter STATE_EX_SUB bound to: 5'b01000 
-	Parameter STATE_EX_SLL bound to: 5'b01001 
-	Parameter STATE_EX_SLT bound to: 5'b01010 
-	Parameter STATE_EX_SLTU bound to: 5'b01011 
-	Parameter STATE_EX_XOR bound to: 5'b01100 
-	Parameter STATE_EX_SRL bound to: 5'b01101 
-	Parameter STATE_EX_SRA bound to: 5'b01110 
-	Parameter STATE_EX_OR bound to: 5'b01111 
-	Parameter STATE_EX_AND bound to: 5'b10000 
-	Parameter STATE_MEM_LB bound to: 5'b10001 
-	Parameter STATE_MEM_LH bound to: 5'b10010 
-	Parameter STATE_MEM_LW bound to: 5'b10011 
-	Parameter STATE_MEM_LBU bound to: 5'b10100 
-	Parameter STATE_MEM_LHU bound to: 5'b10101 
-	Parameter STATE_MEM_SB bound to: 5'b10110 
-	Parameter STATE_MEM_SH bound to: 5'b10111 
-	Parameter STATE_MEM_SW bound to: 5'b11000 
-	Parameter STATE_MEM_INVALID bound to: 5'b11111 
-	Parameter STATE_WB_GEN bound to: 5'b11001 
-	Parameter STATE_WB_LOAD bound to: 5'b11010 
-	Parameter STATE_WB_JALR bound to: 5'b11011 
-	Parameter STATE_WB_BNT bound to: 5'b11100 
-	Parameter STATE_WB_BT bound to: 5'b11101 
-INFO: [Synth 8-226] default block is never used [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v:87]
-INFO: [Synth 8-6155] done synthesizing module 'control_unit' (2#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v:3]
-INFO: [Synth 8-6157] synthesizing module 'imm_gen' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/imm_gen.v:3]
-	Parameter I_type bound to: 3'b000 
-	Parameter B_type bound to: 3'b001 
-	Parameter S_type bound to: 3'b010 
-	Parameter J_type bound to: 3'b011 
-	Parameter U_type bound to: 3'b100 
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/imm_gen.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'imm_gen' (3#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/imm_gen.v:3]
-INFO: [Synth 8-6157] synthesizing module 'reg_file' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/reg_file.v:2]
-INFO: [Synth 8-6155] done synthesizing module 'reg_file' (4#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/reg_file.v:2]
-INFO: [Synth 8-6157] synthesizing module 'alu' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/alu.v:3]
-INFO: [Synth 8-6155] done synthesizing module 'alu' (5#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/alu.v:3]
-INFO: [Synth 8-6157] synthesizing module 'addr_controller' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/addr_controller.v:3]
-INFO: [Synth 8-6155] done synthesizing module 'addr_controller' (6#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/addr_controller.v:3]
-INFO: [Synth 8-6157] synthesizing module 'data_mem' [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v:10]
+INFO: [Synth 8-3876] $readmem data file 'instr.mem' is read successfully [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/instr_mem.v:22]
+INFO: [Synth 8-6155] done synthesizing module 'instr_mem' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/instr_mem.v:10]
+INFO: [Synth 8-6157] synthesizing module 'control_unit' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/control_unit.v:3]
+INFO: [Synth 8-226] default block is never used [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/control_unit.v:88]
+INFO: [Synth 8-6155] done synthesizing module 'control_unit' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/control_unit.v:3]
+INFO: [Synth 8-6157] synthesizing module 'imm_gen' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/imm_gen.v:3]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/imm_gen.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'imm_gen' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/imm_gen.v:3]
+INFO: [Synth 8-6157] synthesizing module 'reg_file' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/reg_file.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'reg_file' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/reg_file.v:2]
+INFO: [Synth 8-6157] synthesizing module 'alu' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/alu.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'alu' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/alu.v:3]
+INFO: [Synth 8-6157] synthesizing module 'addr_controller' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/addr_controller.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'addr_controller' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/addr_controller.v:3]
+INFO: [Synth 8-6157] synthesizing module 'data_mem' [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/data_mem.v:10]
 	Parameter ADDR_WIDTH bound to: 14 - type: integer 
 	Parameter DATA_WIDTH bound to: 32 - type: integer 
-INFO: [Synth 8-3876] $readmem data file 'data.mem' is read successfully [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v:22]
-INFO: [Synth 8-6155] done synthesizing module 'data_mem' (7#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v:10]
-INFO: [Synth 8-6155] done synthesizing module 'RV32I' (8#1) [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/RV32I.v:3]
+INFO: [Synth 8-3876] $readmem data file 'data.mem' is read successfully [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/data_mem.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'data_mem' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/data_mem.v:10]
+INFO: [Synth 8-6155] done synthesizing module 'RV32I' (0#1) [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/RV32I.v:3]
+WARNING: [Synth 8-3848] Net imem_dataIn in module/entity RV32I does not have driver. [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/RV32I.v:14]
+WARNING: [Synth 8-7129] Port alu_result[3] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[2] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[1] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[0] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[6] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[5] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[4] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[3] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[2] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[1] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[0] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_valid in module control_unit is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_reserved in module control_unit is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_ro in module control_unit is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:16 . Memory (MB): peak = 1201.859 ; gain = 95.559
+Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2097.605 ; gain = 453.738 ; free physical = 156 ; free virtual = 10077
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 1201.859 ; gain = 95.559
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2115.418 ; gain = 471.551 ; free physical = 171 ; free virtual = 10080
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 1201.859 ; gain = 95.559
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2115.418 ; gain = 471.551 ; free physical = 171 ; free virtual = 10080
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.075 . Memory (MB): peak = 1201.859 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2115.418 ; gain = 0.000 ; free physical = 170 ; free virtual = 10079
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
-Finished Parsing XDC File [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/RV32I_propImpl.xdc].
+Parsing XDC File [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
+Finished Parsing XDC File [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/RV32I_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/RV32I_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1309.234 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2266.168 ; gain = 0.000 ; free physical = 166 ; free virtual = 10059
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.020 . Memory (MB): peak = 1309.234 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2266.168 ; gain = 0.000 ; free physical = 166 ; free virtual = 10059
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished Constraint Validation : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 170 ; free virtual = 10048
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 170 ; free virtual = 10048
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 170 ; free virtual = 10048
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_curr_reg' in module 'control_unit'
 ---------------------------------------------------------------------------------------------------
@@ -136,37 +116,37 @@ INFO: [Synth 8-802] inferred FSM for state register 'state_curr_reg' in module '
           STATE_ID_STYPE | 00000000000000000000000000000100 |                            00100
           STATE_ID_JTYPE | 00000000000000000000000000001000 |                            00101
           STATE_ID_BTYPE | 00000000000000000000000000010000 |                            00011
-            STATE_EX_SUB | 00000000000000000000000000100000 |                            01000
+            STATE_EX_SUB | 00000000000000000000000000100000 |                            01001
             STATE_ID_LUI | 00000000000000000000000001000000 |                            00110
-          STATE_ID_AUIPC | 00000000000000000000000010000000 |                            11110
+          STATE_ID_AUIPC | 00000000000000000000000010000000 |                            00111
           STATE_ID_ITYPE | 00000000000000000000000100000000 |                            00010
-            STATE_EX_ADD | 00000000000000000000001000000000 |                            00111
-       STATE_MEM_INVALID | 00000000000000000000010000000000 |                            11111
-            STATE_MEM_LB | 00000000000000000000100000000000 |                            10001
-            STATE_MEM_LH | 00000000000000000001000000000000 |                            10010
-            STATE_MEM_LW | 00000000000000000010000000000000 |                            10011
-           STATE_MEM_LBU | 00000000000000000100000000000000 |                            10100
-           STATE_MEM_LHU | 00000000000000001000000000000000 |                            10101
-           STATE_WB_LOAD | 00000000000000010000000000000000 |                            11010
-            STATE_MEM_SB | 00000000000000100000000000000000 |                            10110
-            STATE_MEM_SH | 00000000000001000000000000000000 |                            10111
-            STATE_MEM_SW | 00000000000010000000000000000000 |                            11000
-           STATE_WB_JALR | 00000000000100000000000000000000 |                            11011
-            STATE_EX_SLL | 00000000001000000000000000000000 |                            01001
-            STATE_EX_SLT | 00000000010000000000000000000000 |                            01010
-           STATE_EX_SLTU | 00000000100000000000000000000000 |                            01011
-             STATE_WB_BT | 00000001000000000000000000000000 |                            11101
-            STATE_WB_BNT | 00000010000000000000000000000000 |                            11100
-            STATE_EX_XOR | 00000100000000000000000000000000 |                            01100
-            STATE_EX_SRL | 00001000000000000000000000000000 |                            01101
-            STATE_EX_SRA | 00010000000000000000000000000000 |                            01110
-             STATE_EX_OR | 00100000000000000000000000000000 |                            01111
-            STATE_EX_AND | 01000000000000000000000000000000 |                            10000
-            STATE_WB_GEN | 10000000000000000000000000000000 |                            11001
+            STATE_EX_ADD | 00000000000000000000001000000000 |                            01000
+          STATE_MEM_LOAD | 00000000000000000000010000000000 |                            10010
+             STATE_WB_LB | 00000000000000000000100000000000 |                            10111
+             STATE_WB_LH | 00000000000000000001000000000000 |                            11000
+             STATE_WB_LW | 00000000000000000010000000000000 |                            11001
+            STATE_WB_LBU | 00000000000000000100000000000000 |                            11010
+            STATE_WB_LHU | 00000000000000001000000000000000 |                            11011
+            STATE_MEM_SB | 00000000000000010000000000000000 |                            10011
+            STATE_MEM_SH | 00000000000000100000000000000000 |                            10100
+            STATE_MEM_SW | 00000000000001000000000000000000 |                            10101
+        STATE_MEM_WB_NOP | 00000000000010000000000000000000 |                            11111
+           STATE_WB_JALR | 00000000000100000000000000000000 |                            11100
+            STATE_EX_SLL | 00000000001000000000000000000000 |                            01010
+            STATE_EX_SLT | 00000000010000000000000000000000 |                            01011
+           STATE_EX_SLTU | 00000000100000000000000000000000 |                            01100
+             STATE_WB_BT | 00000001000000000000000000000000 |                            11110
+            STATE_WB_BNT | 00000010000000000000000000000000 |                            11101
+            STATE_EX_XOR | 00000100000000000000000000000000 |                            01101
+            STATE_EX_SRL | 00001000000000000000000000000000 |                            01110
+            STATE_EX_SRA | 00010000000000000000000000000000 |                            01111
+             STATE_EX_OR | 00100000000000000000000000000000 |                            10000
+            STATE_EX_AND | 01000000000000000000000000000000 |                            10001
+            STATE_WB_GEN | 10000000000000000000000000000000 |                            10110
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_curr_reg' using encoding 'one-hot' in module 'control_unit'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:30 ; elapsed = 00:00:37 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:23 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 160 ; free virtual = 10036
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -174,7 +154,7 @@ Start RTL Component Statistics
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input   32 Bit       Adders := 1     
-	   2 Input   32 Bit       Adders := 3     
+	   2 Input   32 Bit       Adders := 2     
 +---XORs : 
 	   2 Input     32 Bit         XORs := 1     
 +---Registers : 
@@ -183,7 +163,7 @@ Detailed RTL Component Info :
 	             512K Bit	(16384 X 32 bit)          RAMs := 2     
 +---Muxes : 
 	  78 Input   32 Bit        Muxes := 1     
-	   2 Input   32 Bit        Muxes := 21    
+	   2 Input   32 Bit        Muxes := 20    
 	  32 Input    5 Bit        Muxes := 1     
 	  32 Input    4 Bit        Muxes := 1     
 	  32 Input    3 Bit        Muxes := 3     
@@ -204,19 +184,34 @@ Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port alu_result[3] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[2] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[1] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_result[0] in module addr_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[6] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[5] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[4] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[3] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[2] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[1] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[0] in module imm_gen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_valid in module control_unit is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_reserved in module control_unit is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr_ro in module control_unit is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:36 ; elapsed = 00:00:44 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:24 ; elapsed = 00:01:25 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 189 ; free virtual = 9766
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
-Block RAM: Preliminary Mapping	Report (see note below)
+Block RAM: Preliminary Mapping Report (see note below)
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |Module Name | RTL Object          | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |instr_mem:  | memory_reg          | 16 K x 32(NO_CHANGE)   | W | R |                        |   |   | Port A           | 0      | 16     | 
-|RV32I       | data_mem/memory_reg | 16 K x 32(NO_CHANGE)   | W | R |                        |   |   | Port A           | 0      | 16     | 
+|RV32I       | data_mem/memory_reg | 16 K x 32(READ_FIRST)  | W | R |                        |   |   | Port A           | 0      | 16     | 
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
@@ -227,24 +222,24 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:50 ; elapsed = 00:01:00 . Memory (MB): peak = 1309.234 ; gain = 202.934
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:33 ; elapsed = 00:01:34 . Memory (MB): peak = 2266.168 ; gain = 622.301 ; free physical = 187 ; free virtual = 9780
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:52 ; elapsed = 00:01:02 . Memory (MB): peak = 1325.742 ; gain = 219.441
+Finished Timing Optimization : Time (s): cpu = 00:01:46 ; elapsed = 00:01:47 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 164 ; free virtual = 9699
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
-Block RAM: Final Mapping	Report
+Block RAM: Final Mapping Report
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |Module Name | RTL Object          | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |instr_mem:  | memory_reg          | 16 K x 32(NO_CHANGE)   | W | R |                        |   |   | Port A           | 0      | 16     | 
-|RV32I       | data_mem/memory_reg | 16 K x 32(NO_CHANGE)   | W | R |                        |   |   | Port A           | 0      | 16     | 
+|RV32I       | data_mem/memory_reg | 16 K x 32(READ_FIRST)  | W | R |                        |   |   | Port A           | 0      | 16     | 
 +------------+---------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 ---------------------------------------------------------------------------------
@@ -254,24 +249,39 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_4 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_5 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_6 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_7 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_8 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_9 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_10 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_11 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_12 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_13 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_14 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance instr_mem/memory_reg_15 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_4 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_5 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_6 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_7 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_8 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_9 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_10 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_11 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_12 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_13 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_14 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance data_mem/memory_reg_15 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:54 ; elapsed = 00:01:04 . Memory (MB): peak = 1329.109 ; gain = 222.809
+Finished Technology Mapping : Time (s): cpu = 00:01:48 ; elapsed = 00:01:49 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 163 ; free virtual = 9695
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -289,37 +299,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished IO Insertion : Time (s): cpu = 00:01:55 ; elapsed = 00:01:56 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 169 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:55 ; elapsed = 00:01:56 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 169 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 167 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 167 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 167 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 167 ; free virtual = 9691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -336,40 +346,42 @@ Report Cell Usage:
 |      |Cell     |Count |
 +------+---------+------+
 |1     |BUFG     |     1|
-|2     |CARRY4   |    16|
-|3     |LUT1     |     1|
-|4     |LUT2     |    42|
-|5     |LUT3     |    48|
-|6     |LUT4     |    15|
-|7     |LUT5     |    51|
-|8     |LUT6     |    59|
-|9     |MUXF7    |    32|
-|10    |RAMB36E1 |    17|
-|13    |FDRE     |   327|
-|14    |FDSE     |     1|
-|15    |IBUF     |     2|
-|16    |OBUF     |   101|
+|2     |CARRY4   |    38|
+|3     |LUT2     |    54|
+|4     |LUT3     |    81|
+|5     |LUT4     |   171|
+|6     |LUT5     |   193|
+|7     |LUT6     |   873|
+|8     |MUXF7    |   268|
+|9     |RAMB36E1 |    32|
+|39    |FDRE     |  1181|
+|40    |FDSE     |     2|
+|41    |IBUF     |     2|
+|42    |OBUF     |   101|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.801 ; gain = 623.934 ; free physical = 167 ; free virtual = 9691
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:45 ; elapsed = 00:01:08 . Memory (MB): peak = 1334.855 ; gain = 121.180
-Synthesis Optimization Complete : Time (s): cpu = 00:01:03 ; elapsed = 00:01:14 . Memory (MB): peak = 1334.855 ; gain = 228.555
+Synthesis finished with 0 errors, 0 critical warnings and 15 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:53 ; elapsed = 00:01:54 . Memory (MB): peak = 2267.801 ; gain = 473.184 ; free physical = 161 ; free virtual = 9691
+Synthesis Optimization Complete : Time (s): cpu = 00:01:56 ; elapsed = 00:01:57 . Memory (MB): peak = 2267.809 ; gain = 623.934 ; free physical = 161 ; free virtual = 9691
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.030 . Memory (MB): peak = 1346.973 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 65 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2267.809 ; gain = 0.000 ; free physical = 453 ; free virtual = 9989
+INFO: [Netlist 29-17] Analyzing 338 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1346.973 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2299.816 ; gain = 0.000 ; free physical = 440 ; free virtual = 9979
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
+Synth Design complete | Checksum: dd9682a6
 INFO: [Common 17-83] Releasing license: Synthesis
-54 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+69 Infos, 30 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:15 ; elapsed = 00:01:45 . Memory (MB): peak = 1346.973 ; gain = 240.672
-INFO: [Common 17-1381] The checkpoint 'C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1/RV32I.dcp' has been generated.
+synth_design: Time (s): cpu = 00:02:11 ; elapsed = 00:02:05 . Memory (MB): peak = 2299.816 ; gain = 953.082 ; free physical = 437 ; free virtual = 9974
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1892.290; main = 1564.664; forked = 375.016
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3245.883; main = 2299.820; forked = 978.078
+INFO: [Common 17-1381] The checkpoint '/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.runs/synth_1/RV32I.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file RV32I_utilization_synth.rpt -pb RV32I_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Dec 11 11:33:09 2023...
+INFO: [Common 17-206] Exiting Vivado at Thu Dec 14 01:04:42 2023...

@@ -12,6 +12,7 @@ input [ADDR_WIDTH-1:0] addr,
 input [DATA_WIDTH-1:0] dataIn,
 input clk,
 input we,
+input re,
 output reg [DATA_WIDTH-1:0] dout
 );
 
@@ -29,8 +30,8 @@ begin
     begin
         memory[addr] <= dataIn;
     end
-    else
+    if(re)
         dout <= memory[addr];
-end
+    end
 
 endmodule

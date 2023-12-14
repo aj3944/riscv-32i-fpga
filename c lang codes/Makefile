@@ -1,5 +1,5 @@
 c:
-	riscv32-unknown-elf-gcc  -c -O0 -Wall -fmessage-length=0 -march=rv32i -mabi=ilp32 -mcmodel=medlow -I./ main.c -o main.o
+	riscv32-unknown-elf-gcc  -c -O2 -Wall -fmessage-length=0 -march=rv32i -mabi=ilp32 -mcmodel=medlow -I./ main.c -o main.o
 	riscv32-unknown-elf-gcc main.o -Wall -Wl,--no-relax -Wl,--gc-sections -nostdlib -nostartfiles -lgcc --specs=nosys.specs -march=rv32i -mabi=ilp32 -mcmodel=medlow -o main.elf --entry main
 	riscv32-unknown-elf-objcopy -S -O binary main.elf main.bin
 	riscv32-unknown-elf-size main.elf 

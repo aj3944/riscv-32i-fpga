@@ -606,7 +606,7 @@ output [4:0] state_reg_test
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb = 3'b010;
-                mux_pc = 1'b1;
+//                mux_pc = 1'b1;
             end
             STATE_WB_BNT:
             begin

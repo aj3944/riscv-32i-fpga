@@ -1,24 +1,15 @@
-// #include <time.h>
-// #include <stdlib.h>
 
-
-int fib(int a , int b){
-
-
-	if((a <= 1) | (b <= 1))
-		return a + b;
-	else return a + fib(b-1,a);
-
+int fib(int a){
+	if((a <= 1))
+		return 1;
+	else return fib(a - 2) + fib(a-1);
 }
 int main(){
-	int a = 1000;
-	int b = 20;
-	int c = fib(a,b);	
-   // time_t t;
-
-   // srand((unsigned) time(&t));
-
-   int x = 66666666;
-   
+	int a = 30;	
+	// int x = 66666666;
+	int c = fib(a);
+	volatile register int p __asm__("x7") = a;
+	volatile register int q __asm__("x8") = 0;
+	q = c;
 	return c;
 }

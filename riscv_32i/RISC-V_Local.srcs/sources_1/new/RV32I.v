@@ -25,6 +25,7 @@ wire we_alu;
 wire [3:0] aluop;
 wire we_result;
 wire we_dmem;
+wire re_dmem;
 wire we_pc;
 wire we_store;
 wire [1:0] mux_store;
@@ -78,7 +79,7 @@ addr_controller addr_controller(.alu_result(alu_out_pre), .addr_valid(addr_valid
 
 //Instantiate data memory
 wire [31:0] dmem_dataIn, dmem_dout;
-data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .we(we_dmem), .addr(alu_out_reg[15:2]), //Double check this
+data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .re(we_dmem), .we(we_dmem), .addr(alu_out_reg[15:2]), //Double check this
 .dataIn(dmem_dataIn), .dout(dmem_dout));
 
 //Load instructions mux
