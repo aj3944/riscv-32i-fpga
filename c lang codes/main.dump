@@ -6,211 +6,57 @@ SYMBOL TABLE:
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
 00000000 l    df *ABS*	00000000 main.c
-00011b64 g       *ABS*	00000000 __global_pointer$
-00011364 g       .text	00000000 __SDATA_BEGIN__
-00011364 g       .text	00000000 __BSS_END__
-00011364 g       .text	00000000 __bss_start
-00010074 g     F .text	00000028 main
-00011364 g       .text	00000000 __DATA_BEGIN__
-00011364 g       .text	00000000 _edata
-00011364 g       .text	00000000 _end
-0001035c g     F .text	00000008 noop
-0001009c g     F .text	000002c0 fib
+00011914 g       *ABS*	00000000 __global_pointer$
+00011114 g       .text	00000000 __SDATA_BEGIN__
+00011114 g       .text	00000000 __BSS_END__
+00011114 g       .text	00000000 __bss_start
+00010074 g     F .text	000000a0 main
+00011114 g       .text	00000000 __DATA_BEGIN__
+00011114 g       .text	00000000 _edata
+00011114 g       .text	00000000 _end
 
 
 
 Disassembly of section .text:
 
 00010074 <main>:
-   10074:	ff010113          	add	sp,sp,-16
-   10078:	01e00513          	li	a0,30
-   1007c:	00112623          	sw	ra,12(sp)
-   10080:	00812423          	sw	s0,8(sp)
-   10084:	00000097          	auipc	ra,0x0
-   10088:	018080e7          	jalr	24(ra) # 1009c <fib>
-   1008c:	00c12083          	lw	ra,12(sp)
-   10090:	00812403          	lw	s0,8(sp)
-   10094:	01010113          	add	sp,sp,16
-   10098:	00008067          	ret
-
-0001009c <fib>:
-   1009c:	fa010113          	add	sp,sp,-96
-   100a0:	03912a23          	sw	s9,52(sp)
-   100a4:	04112e23          	sw	ra,92(sp)
-   100a8:	00100713          	li	a4,1
-   100ac:	ffe50693          	add	a3,a0,-2
-   100b0:	00000c93          	li	s9,0
-   100b4:	24a75063          	bge	a4,a0,102f4 <fib+0x258>
-   100b8:	05412423          	sw	s4,72(sp)
-   100bc:	03a12823          	sw	s10,48(sp)
-   100c0:	00100793          	li	a5,1
-   100c4:	ffe68613          	add	a2,a3,-2
-   100c8:	00000d13          	li	s10,0
-   100cc:	00100a13          	li	s4,1
-   100d0:	1ed7d063          	bge	a5,a3,102b0 <fib+0x214>
-   100d4:	04812c23          	sw	s0,88(sp)
-   100d8:	04912a23          	sw	s1,84(sp)
-   100dc:	05212823          	sw	s2,80(sp)
-   100e0:	03712e23          	sw	s7,60(sp)
-   100e4:	03b12623          	sw	s11,44(sp)
-   100e8:	ffe60593          	add	a1,a2,-2
-   100ec:	00000d93          	li	s11,0
-   100f0:	18ca5463          	bge	s4,a2,10278 <fib+0x1dc>
-   100f4:	ffe58893          	add	a7,a1,-2
+   10074:	fe010113          	add	sp,sp,-32
+   10078:	00812e23          	sw	s0,28(sp)
+   1007c:	01212c23          	sw	s2,24(sp)
+   10080:	01312a23          	sw	s3,20(sp)
+   10084:	02010413          	add	s0,sp,32
+   10088:	01e00793          	li	a5,30
+   1008c:	fef42623          	sw	a5,-20(s0)
+   10090:	03700793          	li	a5,55
+   10094:	fef42423          	sw	a5,-24(s0)
+   10098:	fec42603          	lw	a2,-20(s0)
+   1009c:	fe842683          	lw	a3,-24(s0)
+   100a0:	fe842703          	lw	a4,-24(s0)
+   100a4:	ffc00793          	li	a5,-4
+   100a8:	000015b7          	lui	a1,0x1
+   100ac:	80058813          	add	a6,a1,-2048 # 800 <main-0xf874>
+   100b0:	20000893          	li	a7,512
+   100b4:	07a00913          	li	s2,122
+   100b8:	40000993          	li	s3,1024
+   100bc:	00f687b3          	add	a5,a3,a5
+   100c0:	00080593          	mv	a1,a6
+   100c4:	00b787b3          	add	a5,a5,a1
+   100c8:	00078813          	mv	a6,a5
+   100cc:	00090793          	mv	a5,s2
+   100d0:	00f707b3          	add	a5,a4,a5
+   100d4:	00098713          	mv	a4,s3
+   100d8:	00e787b3          	add	a5,a5,a4
+   100dc:	00078893          	mv	a7,a5
+   100e0:	00068713          	mv	a4,a3
+   100e4:	00060793          	mv	a5,a2
+   100e8:	00f707b3          	add	a5,a4,a5
+   100ec:	00088713          	mv	a4,a7
+   100f0:	00e787b3          	add	a5,a5,a4
+   100f4:	00078913          	mv	s2,a5
    100f8:	00000793          	li	a5,0
-   100fc:	16ba5063          	bge	s4,a1,1025c <fib+0x1c0>
-   10100:	ffe88913          	add	s2,a7,-2
-   10104:	00000b93          	li	s7,0
-   10108:	ffd00e93          	li	t4,-3
-   1010c:	131a5a63          	bge	s4,a7,10240 <fib+0x1a4>
-   10110:	ffe90413          	add	s0,s2,-2
-   10114:	00000493          	li	s1,0
-   10118:	112a5463          	bge	s4,s2,10220 <fib+0x184>
-   1011c:	05312623          	sw	s3,76(sp)
-   10120:	05512223          	sw	s5,68(sp)
-   10124:	05612023          	sw	s6,64(sp)
-   10128:	03812c23          	sw	s8,56(sp)
-   1012c:	0c8a5463          	bge	s4,s0,101f4 <fib+0x158>
-   10130:	ffe40e13          	add	t3,s0,-2
-   10134:	ffc40313          	add	t1,s0,-4
-   10138:	00000b13          	li	s6,0
-   1013c:	00030993          	mv	s3,t1
-   10140:	00000a93          	li	s5,0
-   10144:	19ca5663          	bge	s4,t3,102d0 <fib+0x234>
-   10148:	ffe98713          	add	a4,s3,-2
-   1014c:	00000c13          	li	s8,0
-   10150:	073a5e63          	bge	s4,s3,101cc <fib+0x130>
-   10154:	00070513          	mv	a0,a4
-   10158:	01c12e23          	sw	t3,28(sp)
-   1015c:	00612c23          	sw	t1,24(sp)
-   10160:	00c12a23          	sw	a2,20(sp)
-   10164:	00d12823          	sw	a3,16(sp)
-   10168:	00f12623          	sw	a5,12(sp)
-   1016c:	01112423          	sw	a7,8(sp)
-   10170:	00b12223          	sw	a1,4(sp)
-   10174:	00e12023          	sw	a4,0(sp)
-   10178:	00000097          	auipc	ra,0x0
-   1017c:	f24080e7          	jalr	-220(ra) # 1009c <fib>
-   10180:	00012703          	lw	a4,0(sp)
-   10184:	fff00813          	li	a6,-1
-   10188:	00412583          	lw	a1,4(sp)
-   1018c:	fff70713          	add	a4,a4,-1
-   10190:	00812883          	lw	a7,8(sp)
-   10194:	00c12783          	lw	a5,12(sp)
-   10198:	01012683          	lw	a3,16(sp)
-   1019c:	01412603          	lw	a2,20(sp)
-   101a0:	01812303          	lw	t1,24(sp)
-   101a4:	01c12e03          	lw	t3,28(sp)
-   101a8:	00ac0c33          	add	s8,s8,a0
-   101ac:	ffd00e93          	li	t4,-3
-   101b0:	fb0712e3          	bne	a4,a6,10154 <fib+0xb8>
-   101b4:	001c0c13          	add	s8,s8,1
-   101b8:	fff98993          	add	s3,s3,-1
-   101bc:	018a8ab3          	add	s5,s5,s8
-   101c0:	ffe98713          	add	a4,s3,-2
-   101c4:	00000c13          	li	s8,0
-   101c8:	f93a46e3          	blt	s4,s3,10154 <fib+0xb8>
-   101cc:	16099c63          	bnez	s3,10344 <fib+0x2a8>
-   101d0:	002a8a93          	add	s5,s5,2
-   101d4:	fff30313          	add	t1,t1,-1
-   101d8:	015b0b33          	add	s6,s6,s5
-   101dc:	fffe0e13          	add	t3,t3,-1
-   101e0:	f5d31ee3          	bne	t1,t4,1013c <fib+0xa0>
-   101e4:	001b0b13          	add	s6,s6,1
-   101e8:	016484b3          	add	s1,s1,s6
-   101ec:	fff40413          	add	s0,s0,-1
-   101f0:	f48a40e3          	blt	s4,s0,10130 <fib+0x94>
-   101f4:	14041e63          	bnez	s0,10350 <fib+0x2b4>
-   101f8:	00248493          	add	s1,s1,2
-   101fc:	fff90913          	add	s2,s2,-1
-   10200:	009b8bb3          	add	s7,s7,s1
-   10204:	04c12983          	lw	s3,76(sp)
-   10208:	04412a83          	lw	s5,68(sp)
-   1020c:	04012b03          	lw	s6,64(sp)
-   10210:	03812c03          	lw	s8,56(sp)
-   10214:	ffe90413          	add	s0,s2,-2
-   10218:	00000493          	li	s1,0
-   1021c:	f12a40e3          	blt	s4,s2,1011c <fib+0x80>
-   10220:	10091c63          	bnez	s2,10338 <fib+0x29c>
-   10224:	002b8b93          	add	s7,s7,2
-   10228:	fff88893          	add	a7,a7,-1
-   1022c:	017787b3          	add	a5,a5,s7
-   10230:	ffe88913          	add	s2,a7,-2
-   10234:	00000b93          	li	s7,0
-   10238:	ffd00e93          	li	t4,-3
-   1023c:	ed1a4ae3          	blt	s4,a7,10110 <fib+0x74>
-   10240:	0e089663          	bnez	a7,1032c <fib+0x290>
-   10244:	00278793          	add	a5,a5,2
-   10248:	fff58593          	add	a1,a1,-1
-   1024c:	00fd8db3          	add	s11,s11,a5
-   10250:	ffe58893          	add	a7,a1,-2
-   10254:	00000793          	li	a5,0
-   10258:	eaba44e3          	blt	s4,a1,10100 <fib+0x64>
-   1025c:	0c059263          	bnez	a1,10320 <fib+0x284>
-   10260:	002d8d93          	add	s11,s11,2
-   10264:	fff60613          	add	a2,a2,-1
-   10268:	01bd0d33          	add	s10,s10,s11
-   1026c:	ffe60593          	add	a1,a2,-2
-   10270:	00000d93          	li	s11,0
-   10274:	e8ca40e3          	blt	s4,a2,100f4 <fib+0x58>
-   10278:	08061e63          	bnez	a2,10314 <fib+0x278>
-   1027c:	002d0d13          	add	s10,s10,2
-   10280:	fff68693          	add	a3,a3,-1
-   10284:	00100793          	li	a5,1
-   10288:	01ac8cb3          	add	s9,s9,s10
-   1028c:	05812403          	lw	s0,88(sp)
-   10290:	05412483          	lw	s1,84(sp)
-   10294:	05012903          	lw	s2,80(sp)
-   10298:	03c12b83          	lw	s7,60(sp)
-   1029c:	02c12d83          	lw	s11,44(sp)
-   102a0:	ffe68613          	add	a2,a3,-2
-   102a4:	00000d13          	li	s10,0
-   102a8:	00100a13          	li	s4,1
-   102ac:	e2d7c4e3          	blt	a5,a3,100d4 <fib+0x38>
-   102b0:	04069c63          	bnez	a3,10308 <fib+0x26c>
-   102b4:	05c12083          	lw	ra,92(sp)
-   102b8:	04812a03          	lw	s4,72(sp)
-   102bc:	03012d03          	lw	s10,48(sp)
-   102c0:	002c8513          	add	a0,s9,2
-   102c4:	03412c83          	lw	s9,52(sp)
-   102c8:	06010113          	add	sp,sp,96
-   102cc:	00008067          	ret
-   102d0:	00100a93          	li	s5,1
-   102d4:	fff30313          	add	t1,t1,-1
-   102d8:	015b0b33          	add	s6,s6,s5
-   102dc:	fffe0e13          	add	t3,t3,-1
-   102e0:	e5d31ee3          	bne	t1,t4,1013c <fib+0xa0>
-   102e4:	001b0b13          	add	s6,s6,1
-   102e8:	016484b3          	add	s1,s1,s6
-   102ec:	fff40413          	add	s0,s0,-1
-   102f0:	f01ff06f          	j	101f0 <fib+0x154>
-   102f4:	05c12083          	lw	ra,92(sp)
-   102f8:	03412c83          	lw	s9,52(sp)
-   102fc:	00100513          	li	a0,1
-   10300:	06010113          	add	sp,sp,96
-   10304:	00008067          	ret
-   10308:	001c8c93          	add	s9,s9,1
-   1030c:	00000693          	li	a3,0
-   10310:	db1ff06f          	j	100c0 <fib+0x24>
-   10314:	001d0d13          	add	s10,s10,1
-   10318:	00000613          	li	a2,0
-   1031c:	dcdff06f          	j	100e8 <fib+0x4c>
-   10320:	001d8d93          	add	s11,s11,1
-   10324:	00000593          	li	a1,0
-   10328:	dcdff06f          	j	100f4 <fib+0x58>
-   1032c:	00178793          	add	a5,a5,1
-   10330:	00000893          	li	a7,0
-   10334:	dcdff06f          	j	10100 <fib+0x64>
-   10338:	001b8b93          	add	s7,s7,1
-   1033c:	00000913          	li	s2,0
-   10340:	dd1ff06f          	j	10110 <fib+0x74>
-   10344:	001a8a93          	add	s5,s5,1
-   10348:	00000993          	li	s3,0
-   1034c:	dfdff06f          	j	10148 <fib+0xac>
-   10350:	00148493          	add	s1,s1,1
-   10354:	00000413          	li	s0,0
-   10358:	dd5ff06f          	j	1012c <fib+0x90>
-
-0001035c <noop>:
-   1035c:	00a03533          	snez	a0,a0
-   10360:	00008067          	ret
+   100fc:	00078513          	mv	a0,a5
+   10100:	01c12403          	lw	s0,28(sp)
+   10104:	01812903          	lw	s2,24(sp)
+   10108:	01412983          	lw	s3,20(sp)
+   1010c:	02010113          	add	sp,sp,32
+   10110:	00008067          	ret
