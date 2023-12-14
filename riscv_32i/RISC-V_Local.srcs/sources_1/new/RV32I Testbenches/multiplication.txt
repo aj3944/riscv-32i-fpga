@@ -27,6 +27,6 @@ ff5ff06f
 14244527
 19994259
 00000000
-00000006 //operand 1
+00000000 //put a value for switches in the testbench for operand 1
 00000000
 00000003 //operand 2

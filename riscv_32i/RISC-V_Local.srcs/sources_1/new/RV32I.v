@@ -3,16 +3,10 @@
 module RV32I(
 input clk,
 input rst,
+input [15:0] switches,
 output [4:0] computer_state,
-output [31:0] data_memory,
-output [31:0] r7_out,
-output [31:0] r8_out
+output [15:0] leds_out
     );
-
-// Switches and LEDS
-reg [15:0] leds;
-reg [15:0] switches;
-wire [15:0] d_mem_temp;
 
 //Instantiate instruction memory and signals
 wire [13:0] imem_addr;
@@ -53,6 +47,7 @@ imm_gen imm_gen(.instruction(imem_dout), .immSel(mux_immSel), .imm(immediate));
 wire [31:0] reg_write_data;
 wire [31:0] reg_data_1;
 wire [31:0] reg_data_2;
+wire [31:0] r7_out, r8_out; //Temporary variables
 reg_file reg_file(.clk(clk), .rst(rst), .we(we_rf), .read_reg_1(imem_dout[19:15]), .read_reg_2(imem_dout[24:20]), 
 .write_reg(imem_dout[11:7]), .write_data(reg_write_data), .reg_data_1(reg_data_1), .reg_data_2(reg_data_2), 
 .r7_out(r7_out), .r8_out(r8_out));
@@ -84,10 +79,10 @@ addr_controller addr_controller(.alu_result(alu_out_pre), .addr_valid(addr_valid
 //Instantiate data memory
 wire [31:0] dmem_dataIn, dmem_dout;
 data_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) data_mem(.clk(clk), .we(we_dmem), .addr(alu_out_reg[15:2]), //Double check this
-.dataIn(dmem_dataIn), .dout(d_mem_temp));
+.dataIn(dmem_dataIn), .dout(dmem_dout));
 
 //Load instructions mux
-wire [31:0] load_data_pre;
+wire [31:0] load_data_pre, load_data_post;
 assign load_data_pre = mux_load[2] ? {16'h0, dmem_dout[15:0]} : (mux_load[1] ? (mux_load[0] ? {24'h0, dmem_dout[7:0]} : 
 (dmem_dout)) : (mux_load[0] ? { {16{dmem_dout[15]}}, dmem_dout[15:0] }: { {24{dmem_dout[7]}}, dmem_dout[7:0] }));
 
@@ -127,21 +122,22 @@ wire [31:0] mux_wb_entry_3, mux_wb_entry_4;
 assign mux_wb_entry_3 = {imem_dout[31:12], 12'b0};
 assign mux_wb_entry_4 = pc_reg + {imem_dout[31:12], 12'b0};
 assign reg_write_data = mux_wb[2] ? mux_wb_entry_4 : (mux_wb[1] ? (mux_wb[0] ? mux_wb_entry_3 : 
-pc_adder_post) : (mux_wb[0] ? load_data_pre : alu_out_reg));
+pc_adder_post) : (mux_wb[0] ? load_data_post : alu_out_reg));
 
 //Temporary Output
-assign data_memory = dmem_dout;
+//assign data_memory = dmem_dout;
 
 //LEDs and switches
-
+reg [15:0] leds_reg;
 always @(posedge clk)
 begin
     if(rst)
-        leds <= 16'h0000;
-    else if (alu_out_reg[15:2] == 32'h00100014 && we_dmem)
-        leds <= dmem_dataIn[15:0];
+        leds_reg <= 16'h0000;
+    else if (((alu_out_reg[31:0] == 32'h00100014) || (alu_out_reg[31:0] == 32'h80000014)) && we_dmem)
+        leds_reg <= store_data[15:0];
 end
+assign leds_out = leds_reg;
 
-assign dmem_out = (alu_out_reg[15:2] == 32'h00100010) ? switches : d_mem_temp;
+assign load_data_post = ((alu_out_reg[31:0] == 32'h00100010) || (alu_out_reg[31:0] == 32'h80000010)) ? {16'h0, switches} : load_data_pre;
 
 endmodule

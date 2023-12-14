@@ -4,11 +4,11 @@ module tb_RV32I(
     );
     
     reg clk, rst;
+    reg [15:0] switches;
     wire [4:0] computer_state;
-    wire [31:0] data_memory, r7_out, r8_out;
+    wire [15:0] leds_out;
     
-    RV32I dut(.clk(clk), .rst(rst), .data_memory(data_memory), .computer_state(computer_state), 
-    .r7_out(r7_out), .r8_out(r8_out));
+    RV32I dut(.clk(clk), .rst(rst), .switches(switches), .computer_state(computer_state), .leds_out(leds_out));
     
     localparam T = 10;
     
@@ -22,7 +22,7 @@ module tb_RV32I(
     
     initial
     begin
-        #500 $finish;
+        #1000 $finish;
     end
     
     initial
@@ -31,9 +31,7 @@ module tb_RV32I(
         #50;
         rst = 1'b0;
         #T;
-        //addi $7, $0, 7
-        //addi $1, $0, 3
-        //add $8, $1, $7
+        switches = 16'h6;
         //
     end
     
