@@ -1,0 +1,28 @@
+//Program description
+auipc x1, 0
+auipc x8, 5
+jalr x7, 20(x1) //Program should jump to address 20, instruction ori x8, x8, 0xfffff
+addi x8, x0, 1
+andi x8, x8, 0
+ori x8, x8, -1
+sh x8, 20(x1)
+lb x8, 20(x1)
+ecall
+
+//Expected outputs
+x7 = 0x0100000c
+x8 = 0x000000ff
+
+//Program encoding
+00000097
+00005417
+014083e7
+00100413
+00047413
+fff46413
+00809a23
+01408403
+00000073
+
+//Data memory setup
+No setup required

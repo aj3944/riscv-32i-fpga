@@ -32,13 +32,13 @@ wire [2:0] mux_load;
 wire [2:0] mux_wb;
 wire we_rf;
 wire mux_pc;
-wire mux_jalr;
+wire mux_branch;
 control_unit control_unit(.clk(clk), .rst(rst), .opcode(imem_dout[6:0]), .funct3(imem_dout[14:12]), 
 .funct7(imem_dout[30]), .alu_result(alu_out_pre), .addr_valid(addr_valid), .addr_reserved(addr_reserved), 
 .addr_ro(addr_ro), .mux_immSel(mux_immSel), .mux_alu(mux_alu), .we_alu(we_alu), .aluop(aluop), 
 .we_result(we_result), .we_dmem(we_dmem), .we_pc(we_pc), .we_store(we_store), .mux_store(mux_store), 
 .mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), .mux_pc(mux_pc), 
-.mux_jalr(mux_jalr), .state_reg_test(computer_state));
+.mux_branch(mux_branch), .state_reg_test(computer_state));
 
 //Instantiate immediate generator
 wire [31:0] immediate;
@@ -111,18 +111,18 @@ end
 assign imem_addr = pc_reg[15:2];
 
 //Program counter next logic
-wire [31:0] pc4;
-assign pc4 = pc_reg + 3'b100;
-wire [31:0] pc_branch;
-assign pc_branch = (mux_jalr ? alu_out_reg : pc_reg) + immediate;
-assign pc_next = mux_pc ? pc_branch : pc4;
+wire [31:0] pc_adder_pre;
+wire [31:0] pc_adder_post;
+assign pc_adder_pre = mux_branch ? immediate : 32'h4;
+assign pc_adder_post = pc_reg + pc_adder_pre;
+assign pc_next = mux_pc ? alu_out_reg : pc_adder_post;
 
 //Write back register file logic
 wire [31:0] mux_wb_entry_3, mux_wb_entry_4;
 assign mux_wb_entry_3 = {imem_dout[31:12], 12'b0};
 assign mux_wb_entry_4 = pc_reg + {imem_dout[31:12], 12'b0};
 assign reg_write_data = mux_wb[2] ? mux_wb_entry_4 : (mux_wb[1] ? (mux_wb[0] ? mux_wb_entry_3 : 
-pc4) : (mux_wb[0] ? load_data_pre : alu_out_reg));
+pc_adder_post) : (mux_wb[0] ? load_data_pre : alu_out_reg));
 
 //Temporary Output
 assign data_memory = dmem_dout;

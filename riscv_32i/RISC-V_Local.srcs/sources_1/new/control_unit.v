@@ -23,7 +23,7 @@ output reg [2:0] mux_load,
 output reg [2:0] mux_wb,
 output reg we_rf,
 output reg mux_pc,
-output reg mux_jalr,
+output reg mux_branch,
 output [4:0] state_reg_test
     );
     
@@ -36,35 +36,35 @@ output [4:0] state_reg_test
     localparam STATE_ID_STYPE = 5'h04;
     localparam STATE_ID_JTYPE = 5'h05;
     localparam STATE_ID_LUI = 5'h06;
-    localparam STATE_ID_AUIPC = 5'h1E;
+    localparam STATE_ID_AUIPC = 5'h07;
     
-    localparam STATE_EX_ADD = 5'h07;
-    localparam STATE_EX_SUB = 5'h08;
-    localparam STATE_EX_SLL = 5'h09;
-    localparam STATE_EX_SLT = 5'h0A;
-    localparam STATE_EX_SLTU = 5'h0B;
-    localparam STATE_EX_XOR = 5'h0C;
-    localparam STATE_EX_SRL = 5'h0D;
-    localparam STATE_EX_SRA = 5'h0E;
-    localparam STATE_EX_OR = 5'h0F;
-    localparam STATE_EX_AND = 5'h10;
+    localparam STATE_EX_ADD = 5'h08;
+    localparam STATE_EX_SUB = 5'h09;
+    localparam STATE_EX_SLL = 5'h0A;
+    localparam STATE_EX_SLT = 5'h0B;
+    localparam STATE_EX_SLTU = 5'h0C;
+    localparam STATE_EX_XOR = 5'h0D;
+    localparam STATE_EX_SRL = 5'h0E;
+    localparam STATE_EX_SRA = 5'h0F;
+    localparam STATE_EX_OR = 5'h10;
+    localparam STATE_EX_AND = 5'h11;
     
-    localparam STATE_MEM_LB = 5'h11;
-    localparam STATE_MEM_LH = 5'h12;
-    localparam STATE_MEM_LW = 5'h13;
-    localparam STATE_MEM_LBU = 5'h14;
-    localparam STATE_MEM_LHU = 5'h15;
-    localparam STATE_MEM_SB = 5'h16;
-    localparam STATE_MEM_SH = 5'h17;
-    localparam STATE_MEM_SW = 5'h18;
+    localparam STATE_MEM_LOAD = 5'h12;
+    localparam STATE_MEM_SB = 5'h13;
+    localparam STATE_MEM_SH = 5'h14;
+    localparam STATE_MEM_SW = 5'h15;
     
     localparam STATE_MEM_WB_NOP = 5'h1F;
     
-    localparam STATE_WB_GEN = 5'h19;
-    localparam STATE_WB_LOAD = 5'h1A;
-    localparam STATE_WB_JALR = 5'h1B;
-    localparam STATE_WB_BNT = 5'h1C;
-    localparam STATE_WB_BT = 5'h1D;
+    localparam STATE_WB_GEN = 5'h16;
+    localparam STATE_WB_LB = 5'h17;
+    localparam STATE_WB_LH = 5'h18;
+    localparam STATE_WB_LW = 5'h19;
+    localparam STATE_WB_LBU = 5'h1A;
+    localparam STATE_WB_LHU = 5'h1B;
+    localparam STATE_WB_JALR = 5'h1C;
+    localparam STATE_WB_BNT = 5'h1D;
+    localparam STATE_WB_BT = 5'h1E;
     
     reg [4:0] state_curr, state_next;
     wire branch_taken;
@@ -218,18 +218,7 @@ output [4:0] state_reg_test
                 if(opcode == 7'b0000011)
                 //load
                 begin
-//                    if(~(addr_valid | addr_reserved))
-//                        state_next = STATE_MEM_WB_NOP;
-                    if(funct3 == 3'b000)
-                        state_next = STATE_MEM_LB;
-                    else if(funct3 == 3'b001)
-                        state_next = STATE_MEM_LH;
-                    else if(funct3 == 3'b010)
-                        state_next = STATE_MEM_LW;
-                    else if(funct3 == 3'b100)
-                        state_next = STATE_MEM_LBU;
-                    else
-                        state_next = STATE_MEM_LHU;
+                    state_next = STATE_MEM_LOAD;
                 end
                 else if(opcode == 7'b0100011)
                 //store
@@ -315,34 +304,25 @@ output [4:0] state_reg_test
                 state_next = STATE_WB_GEN;
             end
             
+            STATE_MEM_LOAD:
+            begin
+//              if(~(addr_valid | addr_reserved))
+//                  state_next = STATE_MEM_WB_NOP;
+                if(funct3 == 3'b000)
+                    state_next = STATE_WB_LB;
+                else if(funct3 == 3'b001)
+                    state_next = STATE_WB_LH;
+                else if(funct3 == 3'b010)
+                    state_next = STATE_WB_LW;
+                else if(funct3 == 3'b100)
+                    state_next = STATE_WB_LBU;
+                else
+                    state_next = STATE_WB_LHU;
+            end
+            
             STATE_EX_AND:
             begin
                 state_next = STATE_WB_GEN;
-            end
-            
-            STATE_MEM_LB:
-            begin
-                state_next = STATE_WB_LOAD;
-            end
-            
-            STATE_MEM_LH:
-            begin
-                state_next = STATE_WB_LOAD;
-            end
-            
-            STATE_MEM_LW:
-            begin
-                state_next = STATE_WB_LOAD;
-            end
-            
-            STATE_MEM_LBU:
-            begin
-                state_next = STATE_WB_LOAD;
-            end
-            
-            STATE_MEM_LHU:
-            begin
-                state_next = STATE_WB_LOAD;
             end
             
             STATE_MEM_SB:
@@ -370,7 +350,27 @@ output [4:0] state_reg_test
                 state_next = STATE_IF_INIT;
             end
             
-            STATE_WB_LOAD:
+            STATE_WB_LB:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_WB_LH:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_WB_LW:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_WB_LBU:
+            begin
+                state_next = STATE_IF_INIT;
+            end
+            
+            STATE_WB_LHU:
             begin
                 state_next = STATE_IF_INIT;
             end
@@ -411,7 +411,7 @@ output [4:0] state_reg_test
         mux_wb = 3'b000;
         we_rf = 1'b0;
         mux_pc = 1'b0;
-        mux_jalr = 1'b0;
+        mux_branch = 1'b0;
         case(state_curr)
             STATE_IF_INIT:
             begin
@@ -441,9 +441,8 @@ output [4:0] state_reg_test
             STATE_ID_JTYPE:
             begin
                 mux_immSel = 3'b011;
-                mux_pc = 1'b1;
+                mux_branch = 1'b1;
                 we_pc = 1'b1;
-                mux_jalr = 1'b0;
                 mux_wb = 3'b010;
                 we_rf = 1'b1;
             end
@@ -454,6 +453,7 @@ output [4:0] state_reg_test
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
             end
             STATE_ID_AUIPC:
             begin
@@ -462,6 +462,7 @@ output [4:0] state_reg_test
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
             end
             STATE_EX_ADD:
             begin
@@ -514,31 +515,15 @@ output [4:0] state_reg_test
                 aluop = 4'b0111;
                 we_result = 1'b1;
             end
-            STATE_MEM_LB:
+            STATE_MEM_LOAD:
             begin
-                mux_load = 3'b000;
-            end
-            STATE_MEM_LH:
-            begin
-                mux_load = 3'b001;
-            end
-            STATE_MEM_LW:
-            begin
-                mux_load = 3'b010;
-            end
-            STATE_MEM_LBU:
-            begin
-                mux_load = 3'b011;
-            end
-            STATE_MEM_LHU:
-            begin
-                mux_load = 3'b100;
             end
             STATE_MEM_SB:
             begin
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
                 mux_store = 2'b01;
             end
             STATE_MEM_SH:
@@ -546,6 +531,7 @@ output [4:0] state_reg_test
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
                 mux_store = 2'b10;
             end
             STATE_MEM_SW:
@@ -553,12 +539,14 @@ output [4:0] state_reg_test
                 we_dmem = 1'b1;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
                 mux_store = 2'b00;
             end
             STATE_MEM_WB_NOP:
             begin
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
             end
             STATE_WB_GEN:
             begin
@@ -566,13 +554,52 @@ output [4:0] state_reg_test
                 we_pc = 1'b1;
                 mux_wb = 3'b000;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
             end
-            STATE_WB_LOAD:
+            STATE_WB_LB:
             begin
                 we_rf = 1'b1;
                 we_pc = 1'b1;
                 mux_wb =3'b001;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
+                mux_load = 3'b000;
+            end
+            STATE_WB_LH:
+            begin
+                we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_wb =3'b001;
+                mux_pc = 1'b0;
+                mux_branch = 1'b0;
+                mux_load = 3'b001;
+            end
+            STATE_WB_LW:
+            begin
+                we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_wb =3'b001;
+                mux_pc = 1'b0;
+                mux_branch = 1'b0;
+                mux_load = 3'b010;
+            end
+            STATE_WB_LBU:
+            begin
+                we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_wb =3'b001;
+                mux_pc = 1'b0;
+                mux_branch = 1'b0;
+                mux_load = 3'b011;
+            end
+            STATE_WB_LHU:
+            begin
+                we_rf = 1'b1;
+                we_pc = 1'b1;
+                mux_wb =3'b001;
+                mux_pc = 1'b0;
+                mux_branch = 1'b0;
+                mux_load = 3'b100;
             end
             STATE_WB_JALR:
             begin
@@ -580,20 +607,20 @@ output [4:0] state_reg_test
                 we_pc = 1'b1;
                 mux_wb = 3'b010;
                 mux_pc = 1'b1;
-                mux_jalr = 1'b1;
             end
             STATE_WB_BNT:
             begin
                 we_rf = 1'b0;
                 we_pc = 1'b1;
                 mux_pc = 1'b0;
+                mux_branch = 1'b0;
             end
             STATE_WB_BT:
             begin
                 we_rf = 1'b0;
                 we_pc = 1'b1;
-                mux_pc = 1'b1;
-                mux_jalr = 1'b0;
+                mux_branch = 1'b1;
+                mux_pc = 1'b0;
                 mux_immSel = 3'b001;
             end
         endcase
