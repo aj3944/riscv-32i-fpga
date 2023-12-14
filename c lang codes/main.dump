@@ -6,14 +6,15 @@ SYMBOL TABLE:
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
 00000000 l    df *ABS*	00000000 main.c
-00011b5c g       *ABS*	00000000 __global_pointer$
-0001135c g       .text	00000000 __SDATA_BEGIN__
-0001135c g       .text	00000000 __BSS_END__
-0001135c g       .text	00000000 __bss_start
+00011b64 g       *ABS*	00000000 __global_pointer$
+00011364 g       .text	00000000 __SDATA_BEGIN__
+00011364 g       .text	00000000 __BSS_END__
+00011364 g       .text	00000000 __bss_start
 00010074 g     F .text	00000028 main
-0001135c g       .text	00000000 __DATA_BEGIN__
-0001135c g       .text	00000000 _edata
-0001135c g       .text	00000000 _end
+00011364 g       .text	00000000 __DATA_BEGIN__
+00011364 g       .text	00000000 _edata
+00011364 g       .text	00000000 _end
+0001035c g     F .text	00000008 noop
 0001009c g     F .text	000002c0 fib
 
 
@@ -209,3 +210,7 @@ Disassembly of section .text:
    10350:	00148493          	add	s1,s1,1
    10354:	00000413          	li	s0,0
    10358:	dd5ff06f          	j	1012c <fib+0x90>
+
+0001035c <noop>:
+   1035c:	00a03533          	snez	a0,a0
+   10360:	00008067          	ret
