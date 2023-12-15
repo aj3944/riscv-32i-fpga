@@ -1,0 +1,2 @@
+Time resolution is 1 ps
+$finish called at time : 500 ns : File "/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sim_1/new/tb_RV32I.v" Line 25
