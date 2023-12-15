@@ -1,62 +1,107 @@
-/* RC5REF.C -- Reference implementation of RC5-32/12/16 in C.        */
-/* Copyright (C) 1995 RSA Data Security, Inc.                        */
-typedef unsigned long WORD;       /* Should be 32-bit = 4 bytes
-*/
-#define w        32             /* word size in bits                 */
-#define r        12             /* number of rounds                  */
-#define b        16             /* number of bytes in key            */
-#define c         4             /* number  words in key = ceil(8*b/w)*/
-#define t        26             /* size of table S = 2*(r+1) words   */
-WORD S[t];                      /* expanded key table                */
-WORD P = 0xb7e15163, Q = 0x9e3779b9;  /* magic constants             */
-/* Rotation operators. x must be unsigned, to get logical right shift*/
-#define ROTL(x,y) (((x)<<(y&(w-1))) | ((x)>>(w-(y&(w-1)))))
-#define ROTR(x,y) (((x)>>(y&(w-1))) | ((x)<<(w-(y&(w-1)))))
+// #include <stdio.h>
 
-void RC5_ENCRYPT(WORD *pt, WORD *ct) /* 2 WORD input pt/output ct    */
-{ WORD i, A=pt[0]+S[0], B=pt[1]+S[1];
-  for (i=1; i<=r; i++)
-    { A = ROTL(A^B,B)+S[2*i];
-      B = ROTL(B^A,A)+S[2*i+1];
-    }
-  ct[0] = A; ct[1] = B;
+
+long long int rom[26] = {
+      0,
+      0,
+    0x46F8E8C5,
+    0x460C6085,
+    0x70F83B8A,
+    0x284B8303,
+    0x513E1454,
+    0xF621ED22,
+    0x3125065D,
+    0x11A83A5D,
+    0xD427686B,
+    0x713AD82D,
+    0x4B792F99,
+    0x2799A4DD,
+    0xA7901C49,
+    0xDEDE871A,
+    0x36C03196,
+    0xA7EFC249,
+    0x61A78BB8,
+    0x3B0A1D2B,
+    0x4DBFCA76,
+    0xAE162167,
+    0x30D76B0A,
+    0x43192304,
+    0xF6CC1431,
+    0x65046380,    
+  };
+
+
+
+
+long long int rc5_en(long long int input){
+  long long int A,B;
+  A = (input >> 32) & 0xFFFFFFFF;
+  B = input & 0xFFFFFFFF;
+
+  long int ab_xor = 0 ,a_rot = 0 ,ba_xor = 0 ,b_rot = 0;
+
+  for(int i = 1; i < 13; i++){
+    ab_xor = A ^ B;
+    // printf("ab_xor %llx\n",ab_xor);
+
+    a_rot = ( (ab_xor << ( B & 0x1F)) | (ab_xor >> (32 - (B & 0x1F)))) & 0xFFFFFFFF;
+    // printf("a_rot %llx\n",a_rot);
+    A = (a_rot + rom[i*2 ]) & 0xFFFFFFFF;
+    // printf("A %llx\n",A);
+
+    ba_xor = B ^ A;
+     // printf("ba_xor %llx\n",ba_xor);
+    b_rot = ( (ba_xor << (A &0x1F)) | (ba_xor >> (32 - (A & 0x1F))))& 0xFFFFFFFF;
+    // printf("b_rot %llx\n",b_rot);
+    B = (b_rot + rom[i*2 + 1] ) & 0xFFFFFFFF;
+     // printf("B %llx\n",B);
+ } 
+
+  return A << 32 | B;
 }
 
-void RC5_DECRYPT(WORD *ct, WORD *pt) /* 2 WORD input ct/output pt    */
-{ WORD i, B=ct[1], A=ct[0];
-  for (i=r; i>0; i--)
-    { B = ROTR(B-S[2*i+1],A)^A;
-      A = ROTR(A-S[2*i],B)^B;
-    }
-  pt[1] = B-S[1]; pt[0] = A-S[0];
+
+
+long long int rc5_de(long long int input){
+  long long int A,B;
+  A = (input >> 32) & 0xFFFFFFFF;
+  B = input & 0xFFFFFFFF;
+  long int ab_xor = 0 ,a_rot = 0 ,ba_xor = 0 ,b_rot = 0;
+  for(int i = 12; i > 0; i--){
+    b_rot = (B - rom[i*2 + 1] ) & 0xFFFFFFFF;
+    
+    ba_xor = ( (b_rot >> (A &0x1F)) | (b_rot << (32 - (A & 0x1F))))& 0xFFFFFFFF;
+    
+    B = (ba_xor ^ A)& 0xFFFFFFFF;
+
+
+
+    a_rot = (A - rom[i*2 ]) & 0xFFFFFFFF;
+
+    ab_xor = ( (a_rot >> ( B & 0x1F)) | (a_rot << (32 - (B & 0x1F)))) & 0xFFFFFFFF;
+
+    A = (B ^ ab_xor)& 0xFFFFFFFF;
+
+ } 
+
+  return A << 32 | B;  
 }
 
-void RC5_SETUP(unsigned char *K) /* secret input key K[0...b-1]      */
-{  WORD i, j, k, u=w/8, A, B, L[c];
-   /* Initialize L, then S, then mix key into S */
-   for (i=b-1,L[c-1]=0; i!=-1; i--) L[i/u] = (L[i/u]<<8)+K[i];
-   for (S[0]=P,i=1; i<t; i++) S[i] = S[i-1]+Q;
-   for (A=B=i=j=k=0; k<3*t; k++,i=(i+1)%t,j=(j+1)%c)   /* 3*t > 3*c */
-     { A = S[i] = ROTL(S[i]+(A+B),3);
-       B = L[j] = ROTL(L[j]+(A+B),(A+B));
-     }
-}
+
 int main(){
-	unsigned char k[]=  "0123456789ABCBJM";
-	RC5_SETUP(*k);
-	unsigned char encrypt[16] = "testing";
 
-	unsigned char test[16],decrypt[16];
+  long long int a = 0x0123456789abcdef;
 
-	RC5_ENCRYPT(encrypt,test);
-	RC5_DECRYPT(test,decrypt);
-	int same = 1;
-	unsigned char res = 0xeeeeeeee;
-   	for (int i=b-1; i!=-1; i--) if(encrypt[i]!=decrypt[i]) { res = 0xffffffff; same = 0; }
+  long long int b = rc5_en(a);
+  long long int c = rc5_de(b);
 
-	volatile register int x5 __asm__("x11") = res;
-
-	same = x5;
-
-
+  if(a == c){
+    volatile register int x5 __asm__("x11") = 0xff; 
+    // printf("works\n");   
+  }
+  else{
+    volatile register int x5 __asm__("x11") = 0xaa;    
+    // printf("does not works\n");   
+  }
+  return 0;
 }
