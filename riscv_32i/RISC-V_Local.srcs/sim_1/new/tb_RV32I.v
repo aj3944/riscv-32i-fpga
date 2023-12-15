@@ -8,7 +8,7 @@ module tb_RV32I(
     wire [4:0] computer_state;
     wire [15:0] leds_out;
     
-    RV32I dut(.clk(clk), .rst(rst), .switches(switches), .computer_state(computer_state), .leds_out(leds_out));
+    RV32I dut(.clk(clk), .rst(rst), .switches(switches), .leds_out(leds_out));
     
     localparam T = 10;
     
@@ -22,7 +22,7 @@ module tb_RV32I(
     
     initial
     begin
-        #1000 $finish;
+        #10000 $finish;
     end
     
     initial

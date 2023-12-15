@@ -4,7 +4,6 @@ module RV32I(
 input clk,
 input rst,
 input [15:0] switches,
-output [4:0] computer_state,
 output [15:0] leds_out
     );
 
@@ -17,6 +16,7 @@ instr_mem #(.ADDR_WIDTH(14), .DATA_WIDTH(32)) instr_mem(.clk(clk), .we(1'b0), .a
 
 //Instantiate control unit and signals
 wire [31:0] alu_out_pre;
+wire alu_sub_bit, alu_slt_bit, alu_sltu_bit;
 wire addr_valid, addr_reserved, addr_ro;
 wire [2:0] mux_immSel;
 wire mux_alu;
@@ -33,11 +33,11 @@ wire we_rf;
 wire mux_pc;
 wire mux_branch;
 control_unit control_unit(.clk(clk), .rst(rst), .opcode(imem_dout[6:0]), .funct3(imem_dout[14:12]), 
-.funct7(imem_dout[30]), .alu_result(alu_out_pre), .addr_valid(addr_valid), .addr_reserved(addr_reserved), 
-.addr_ro(addr_ro), .mux_immSel(mux_immSel), .mux_alu(mux_alu), .we_alu(we_alu), .aluop(aluop), 
-.we_result(we_result), .we_dmem(we_dmem), .we_pc(we_pc), .we_store(we_store), .mux_store(mux_store), 
-.mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), .mux_pc(mux_pc), 
-.mux_branch(mux_branch), .state_reg_test(computer_state));
+.funct7(imem_dout[30]), .alu_sub_bit(alu_sub_bit), .alu_slt_bit(alu_slt_bit), .alu_sltu_bit(alu_sltu_bit), 
+.addr_valid(addr_valid), .addr_reserved(addr_reserved), .addr_ro(addr_ro), .mux_immSel(mux_immSel), 
+.mux_alu(mux_alu), .we_alu(we_alu), .aluop(aluop), .we_result(we_result), .we_dmem(we_dmem), .we_pc(we_pc), 
+.we_store(we_store), .mux_store(mux_store), .mux_load(mux_load), .mux_wb(mux_wb), .we_rf(we_rf), .mux_pc(mux_pc), 
+.mux_branch(mux_branch));
 
 //Instantiate immediate generator
 wire [31:0] immediate;
@@ -47,10 +47,8 @@ imm_gen imm_gen(.instruction(imem_dout), .immSel(mux_immSel), .imm(immediate));
 wire [31:0] reg_write_data;
 wire [31:0] reg_data_1;
 wire [31:0] reg_data_2;
-wire [31:0] r7_out, r8_out; //Temporary variables
 reg_file reg_file(.clk(clk), .rst(rst), .we(we_rf), .read_reg_1(imem_dout[19:15]), .read_reg_2(imem_dout[24:20]), 
-.write_reg(imem_dout[11:7]), .write_data(reg_write_data), .reg_data_1(reg_data_1), .reg_data_2(reg_data_2), 
-.r7_out(r7_out), .r8_out(r8_out));
+.write_reg(imem_dout[11:7]), .write_data(reg_write_data), .reg_data_1(reg_data_1), .reg_data_2(reg_data_2));
 
 //Register file and ALU interconnects
 reg [31:0] alu_oper_1, alu_oper_2;
@@ -65,7 +63,8 @@ end
 
 //Instantiate ALU
 reg [31:0] alu_out_reg;
-alu alu(.in_1(alu_oper_1), .in_2(alu_oper_2), .control(aluop), .out(alu_out_pre));
+alu alu(.in_1(alu_oper_1), .in_2(alu_oper_2), .control(aluop), .out(alu_out_pre), .alu_sub_bit(alu_sub_bit), 
+.alu_slt_bit(alu_slt_bit), .alu_sltu_bit(alu_sltu_bit));
 always@(posedge clk)
 begin
     if(we_result)

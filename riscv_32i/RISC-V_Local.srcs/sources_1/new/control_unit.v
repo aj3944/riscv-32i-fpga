@@ -6,7 +6,9 @@ input rst,
 input [6:0] opcode,
 input [2:0] funct3,
 input funct7,
-input [31:0] alu_result,
+input alu_sub_bit,
+input alu_slt_bit,
+input alu_sltu_bit,
 input addr_valid,
 input addr_reserved,
 input addr_ro,
@@ -68,9 +70,10 @@ output [4:0] state_reg_test
     
     reg [4:0] state_curr, state_next;
     wire branch_taken;
-    wire alu_result_bit;
-    assign alu_result_bit = |alu_result;
-    assign branch_taken = funct3[2] ? (funct3[0] ? ~alu_result[0] : alu_result[0]) : (funct3[0] ? alu_result_bit : ~alu_result_bit);
+    wire alu_slt_bit_combo;
+    assign alu_slt_bit_combo = funct3[1] ? alu_sltu_bit : alu_slt_bit;
+    assign branch_taken = funct3[2] ? (funct3[0] ? ~alu_slt_bit_combo : alu_slt_bit_combo) : 
+    (funct3[0] ? ~alu_sub_bit : alu_sub_bit);
     
     //Current state logic
     always@(negedge clk)

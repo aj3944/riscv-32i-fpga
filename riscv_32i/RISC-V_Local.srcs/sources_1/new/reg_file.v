@@ -6,9 +6,7 @@ module reg_file (
     input wire [4:0] write_reg,
     input wire [31:0] write_data,
     output wire [31:0] reg_data_1,
-    output wire [31:0] reg_data_2,
-    output wire [31:0] r7_out,
-    output wire [31:0] r8_out
+    output wire [31:0] reg_data_2
 );
 
     reg [31:0] REGISTER_FILE [0:31];
@@ -25,16 +23,13 @@ module reg_file (
         begin 
             if(we)
             begin
-                if(write_reg != 5'b0)
-                    REGISTER_FILE[write_reg] <= write_data; 
+                REGISTER_FILE[write_reg] <= write_data;
+                REGISTER_FILE[0] <= 32'h0;
             end
         end        
     end
     
     assign reg_data_1 = REGISTER_FILE[read_reg_1];
     assign reg_data_2 = REGISTER_FILE[read_reg_2];
-    assign r7_out = REGISTER_FILE[5'b00111];
-    assign r8_out = REGISTER_FILE[5'b01000];
-
 
 endmodule

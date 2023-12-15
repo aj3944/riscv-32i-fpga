@@ -1,0 +1,72 @@
+
+main.elf:     file format elf32-littleriscv
+
+SYMBOL TABLE:
+00010074 l    d  .text	00000000 .text
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_line_str	00000000 .debug_line_str
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 muldi3.o
+00011914 g       *ABS*	00000000 __global_pointer$
+00011114 g       .text	00000000 __SDATA_BEGIN__
+000100f0 g     F .text	00000024 .hidden __mulsi3
+00011114 g       .text	00000000 __BSS_END__
+00011114 g       .text	00000000 __bss_start
+00010074 g     F .text	0000007c main
+00011114 g       .text	00000000 __DATA_BEGIN__
+00011114 g       .text	00000000 _edata
+00011114 g       .text	00000000 _end
+
+
+
+Disassembly of section .text:
+
+00010074 <main>:
+   10074:	fe010113          	add	sp,sp,-32
+   10078:	00112e23          	sw	ra,28(sp)
+   1007c:	00812c23          	sw	s0,24(sp)
+   10080:	02010413          	add	s0,sp,32
+   10084:	00600793          	li	a5,6
+   10088:	fef42223          	sw	a5,-28(s0)
+   1008c:	00100793          	li	a5,1
+   10090:	fef42623          	sw	a5,-20(s0)
+   10094:	00100793          	li	a5,1
+   10098:	fef42423          	sw	a5,-24(s0)
+   1009c:	0280006f          	j	100c4 <main+0x50>
+   100a0:	fe842583          	lw	a1,-24(s0)
+   100a4:	fec42503          	lw	a0,-20(s0)
+   100a8:	00000097          	auipc	ra,0x0
+   100ac:	048080e7          	jalr	72(ra) # 100f0 <__mulsi3>
+   100b0:	00050793          	mv	a5,a0
+   100b4:	fef42623          	sw	a5,-20(s0)
+   100b8:	fe842783          	lw	a5,-24(s0)
+   100bc:	00178793          	add	a5,a5,1
+   100c0:	fef42423          	sw	a5,-24(s0)
+   100c4:	fe842703          	lw	a4,-24(s0)
+   100c8:	fe442783          	lw	a5,-28(s0)
+   100cc:	fcf74ae3          	blt	a4,a5,100a0 <main+0x2c>
+   100d0:	fec42583          	lw	a1,-20(s0)
+   100d4:	04000613          	li	a2,64
+   100d8:	00000793          	li	a5,0
+   100dc:	00078513          	mv	a0,a5
+   100e0:	01c12083          	lw	ra,28(sp)
+   100e4:	01812403          	lw	s0,24(sp)
+   100e8:	02010113          	add	sp,sp,32
+   100ec:	00008067          	ret
+
+000100f0 <__mulsi3>:
+   100f0:	00050613          	mv	a2,a0
+   100f4:	00000513          	li	a0,0
+   100f8:	0015f693          	and	a3,a1,1
+   100fc:	00068463          	beqz	a3,10104 <__mulsi3+0x14>
+   10100:	00c50533          	add	a0,a0,a2
+   10104:	0015d593          	srl	a1,a1,0x1
+   10108:	00161613          	sll	a2,a2,0x1
+   1010c:	fe0596e3          	bnez	a1,100f8 <__mulsi3+0x8>
+   10110:	00008067          	ret
