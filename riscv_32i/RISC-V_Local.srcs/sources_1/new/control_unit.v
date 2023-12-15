@@ -25,11 +25,10 @@ output reg [2:0] mux_load,
 output reg [2:0] mux_wb,
 output reg we_rf,
 output reg mux_pc,
-output reg mux_branch,
-output [4:0] state_reg_test
+output reg mux_branch
     );
     
-    //assume a max of 32 states for now
+    //assume a max of 32 states
     localparam STATE_IF_INIT = 5'h00;
     
     localparam STATE_ID_RTYPE = 5'h01;
@@ -91,22 +90,40 @@ output [4:0] state_reg_test
         case(state_curr)
             STATE_IF_INIT:
             begin
-                if(opcode == 7'b0110011)
+//                if(opcode == 7'b0110011)
+//                    state_next = STATE_ID_RTYPE;
+//                else if(opcode == 7'b0100011)
+//                    state_next = STATE_ID_STYPE;
+//                else if(opcode == 7'b1101111)
+//                    state_next = STATE_ID_JTYPE;
+//                else if(opcode == 7'b1100011)
+//                    state_next = STATE_ID_BTYPE;
+//                else if(opcode == 7'b0110111)
+//                    state_next = STATE_ID_LUI;
+//                else if(opcode == 7'b0010111)
+//                    state_next = STATE_ID_AUIPC;
+//                else if(opcode == 7'b1110011)
+//                    state_next = STATE_IF_INIT;
+//                else
+//                    state_next = STATE_ID_ITYPE;
+                case(opcode)
+                7'b0110011:
                     state_next = STATE_ID_RTYPE;
-                else if(opcode == 7'b0100011)
+                7'b0100011:
                     state_next = STATE_ID_STYPE;
-                else if(opcode == 7'b1101111)
+                7'b1101111:
                     state_next = STATE_ID_JTYPE;
-                else if(opcode == 7'b1100011)
+                7'b1100011:
                     state_next = STATE_ID_BTYPE;
-                else if(opcode == 7'b0110111)
+                7'b0110111:
                     state_next = STATE_ID_LUI;
-                else if(opcode == 7'b0010111)
+                7'b0010111:
                     state_next = STATE_ID_AUIPC;
-                else if(opcode == 7'b1110011)
-                    state_next = STATE_IF_INIT; //halt, we might change this in the future
-                else
+                7'b1110011:
+                    state_next = STATE_IF_INIT;
+                default:
                     state_next = STATE_ID_ITYPE;
+                endcase
             end
             
             STATE_ID_RTYPE:
@@ -218,42 +235,70 @@ output [4:0] state_reg_test
             
             STATE_EX_ADD:
             begin
-                if(opcode == 7'b0000011)
-                //load
-                begin
-                    state_next = STATE_MEM_LOAD;
-                end
-                else if(opcode == 7'b0100011)
-                //store
-                begin
-//                    if(addr_ro | ~(addr_valid | addr_reserved))
-//                        state_next = STATE_MEM_WB_NOP;
-                    if(funct3 == 3'b000)
-                        state_next = STATE_MEM_SB;
-                    else if(funct3 == 3'b001)
-                        state_next = STATE_MEM_SH;
-                    else
-                        state_next = STATE_MEM_SW;
-                end
-                else if(opcode == 7'b0001111)
-                    state_next = STATE_MEM_WB_NOP; //FENCE
-                else if(opcode == 7'b1100111)
-                    state_next = STATE_WB_JALR;
-                else
-                    state_next = STATE_WB_GEN;
+//                if(opcode == 7'b0000011)
+//                    state_next = STATE_MEM_LOAD;
+//                else if(opcode == 7'b0100011)
+//                begin
+////                    if(addr_ro | ~(addr_valid | addr_reserved))
+////                        state_next = STATE_MEM_WB_NOP;
+//                    if(funct3 == 3'b000)
+//                        state_next = STATE_MEM_SB;
+//                    else if(funct3 == 3'b001)
+//                        state_next = STATE_MEM_SH;
+//                    else
+//                        state_next = STATE_MEM_SW;
+//                end
+//                else if(opcode == 7'b0001111)
+//                    state_next = STATE_MEM_WB_NOP; //FENCE
+//                else if(opcode == 7'b1100111)
+//                    state_next = STATE_WB_JALR;
+//                else
+//                    state_next = STATE_WB_GEN;
+                case(opcode)
+                    7'b0000011:
+                        state_next = STATE_MEM_LOAD;
+                    7'b0100011:
+                        case(funct3)
+                            3'b000:
+                                state_next = STATE_MEM_SB;
+                            3'b001:
+                                state_next = STATE_MEM_SH;
+                            3'b010:
+                                state_next = STATE_MEM_SW;
+                            default:
+                                state_next = STATE_MEM_SW;
+                        endcase
+                    7'b0001111:
+                        state_next = STATE_MEM_WB_NOP;
+                    7'b1100111:
+                        state_next = STATE_WB_JALR;
+                    default:
+                        state_next = STATE_WB_GEN;
+                endcase
             end
             
             STATE_EX_SUB:
             begin
-                if(opcode == 7'b1100011)
-                begin
-                    if(branch_taken)
-                        state_next = STATE_WB_BT;
-                    else
-                        state_next = STATE_WB_BNT;
-                end
-                else
-                    state_next = STATE_WB_GEN;
+//                if(opcode == 7'b1100011)
+//                begin
+//                    if(branch_taken)
+//                        state_next = STATE_WB_BT;
+//                    else
+//                        state_next = STATE_WB_BNT;
+//                end
+//                else
+//                    state_next = STATE_WB_GEN;
+                case(opcode)
+                    7'b1100011:
+                        case(branch_taken)
+                            1'b1:
+                                state_next = STATE_WB_BT;
+                            1'b0:
+                                state_next = STATE_WB_BNT;
+                        endcase
+                    default:
+                        state_next = STATE_WB_GEN;
+                endcase
             end
             
             STATE_EX_SLL:
@@ -263,28 +308,50 @@ output [4:0] state_reg_test
             
             STATE_EX_SLT:
             begin
-                if(opcode == 7'b1100011)
-                begin
-                    if(branch_taken)
-                        state_next = STATE_WB_BT;
-                    else
-                        state_next = STATE_WB_BNT;
-                end
-                else
-                    state_next = STATE_WB_GEN;
+//                if(opcode == 7'b1100011)
+//                begin
+//                    if(branch_taken)
+//                        state_next = STATE_WB_BT;
+//                    else
+//                        state_next = STATE_WB_BNT;
+//                end
+//                else
+//                    state_next = STATE_WB_GEN;
+                case(opcode)
+                    7'b1100011:
+                        case(branch_taken)
+                            1'b1:
+                                state_next = STATE_WB_BT;
+                            1'b0:
+                                state_next = STATE_WB_BNT;
+                        endcase
+                    default:
+                        state_next = STATE_WB_GEN;
+                endcase
             end
             
             STATE_EX_SLTU:
             begin
-                if(opcode == 7'b1100011)
-                begin
-                    if(branch_taken)
-                        state_next = STATE_WB_BT;
-                    else
-                        state_next = STATE_WB_BNT;
-                end
-                else
-                    state_next = STATE_WB_GEN;
+//                if(opcode == 7'b1100011)
+//                begin
+//                    if(branch_taken)
+//                        state_next = STATE_WB_BT;
+//                    else
+//                        state_next = STATE_WB_BNT;
+//                end
+//                else
+//                    state_next = STATE_WB_GEN;
+                case(opcode)
+                    7'b1100011:
+                        case(branch_taken)
+                            1'b1:
+                                state_next = STATE_WB_BT;
+                            1'b0:
+                                state_next = STATE_WB_BNT;
+                        endcase
+                    default:
+                        state_next = STATE_WB_GEN;
+                endcase
             end
             
             STATE_EX_XOR:
@@ -307,25 +374,39 @@ output [4:0] state_reg_test
                 state_next = STATE_WB_GEN;
             end
             
+            STATE_EX_AND:
+            begin
+                state_next = STATE_WB_GEN;
+            end
+            
             STATE_MEM_LOAD:
             begin
 //              if(~(addr_valid | addr_reserved))
 //                  state_next = STATE_MEM_WB_NOP;
-                if(funct3 == 3'b000)
-                    state_next = STATE_WB_LB;
-                else if(funct3 == 3'b001)
-                    state_next = STATE_WB_LH;
-                else if(funct3 == 3'b010)
-                    state_next = STATE_WB_LW;
-                else if(funct3 == 3'b100)
-                    state_next = STATE_WB_LBU;
-                else
-                    state_next = STATE_WB_LHU;
-            end
-            
-            STATE_EX_AND:
-            begin
-                state_next = STATE_WB_GEN;
+//                if(funct3 == 3'b000)
+//                    state_next = STATE_WB_LB;
+//                else if(funct3 == 3'b001)
+//                    state_next = STATE_WB_LH;
+//                else if(funct3 == 3'b010)
+//                    state_next = STATE_WB_LW;
+//                else if(funct3 == 3'b100)
+//                    state_next = STATE_WB_LBU;
+//                else
+//                    state_next = STATE_WB_LHU;
+                case(funct3)
+                    3'b000:
+                        state_next = STATE_WB_LB;
+                    3'b001:
+                        state_next = STATE_WB_LH;
+                    3'b010:
+                        state_next = STATE_WB_LW;
+                    3'b100:
+                        state_next = STATE_WB_LBU;
+                    3'b101:
+                        state_next = STATE_WB_LHU;
+                    default:
+                        state_next = STATE_WB_LW;
+                endcase
             end
             
             STATE_MEM_SB:
@@ -628,6 +709,5 @@ output [4:0] state_reg_test
             end
         endcase
     end
-    assign state_reg_test = state_curr;
     
 endmodule

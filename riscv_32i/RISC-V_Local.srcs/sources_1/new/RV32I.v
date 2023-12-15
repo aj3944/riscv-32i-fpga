@@ -1,11 +1,22 @@
 `timescale 1ns / 1ps
 
 module RV32I(
-input clk,
+input clk_in,
 input rst,
 input [15:0] switches,
 output [15:0] leds_out
     );
+
+//Modifying clock frequency from 100MHz to 50MHz
+reg clk;
+initial
+begin
+    clk <= 1'b0;
+end
+always@(posedge clk_in)
+begin
+    clk <= ~clk;
+end
 
 //Instantiate instruction memory and signals
 wire [13:0] imem_addr;
@@ -112,16 +123,18 @@ assign imem_addr = pc_reg[15:2];
 //Program counter next logic
 wire [31:0] pc_adder_pre;
 wire [31:0] pc_adder_post;
+wire [31:0] pc4;
 assign pc_adder_pre = mux_branch ? immediate : 32'h4;
 assign pc_adder_post = pc_reg + pc_adder_pre;
 assign pc_next = mux_pc ? alu_out_reg : pc_adder_post;
+assign pc4 = pc_reg + 32'h4;
 
 //Write back register file logic
 wire [31:0] mux_wb_entry_3, mux_wb_entry_4;
 assign mux_wb_entry_3 = {imem_dout[31:12], 12'b0};
 assign mux_wb_entry_4 = pc_reg + {imem_dout[31:12], 12'b0};
 assign reg_write_data = mux_wb[2] ? mux_wb_entry_4 : (mux_wb[1] ? (mux_wb[0] ? mux_wb_entry_3 : 
-pc_adder_post) : (mux_wb[0] ? load_data_post : alu_out_reg));
+pc4) : (mux_wb[0] ? load_data_post : alu_out_reg));
 
 //Temporary Output
 //assign data_memory = dmem_dout;

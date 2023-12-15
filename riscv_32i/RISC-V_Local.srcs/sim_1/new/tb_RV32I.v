@@ -3,20 +3,19 @@
 module tb_RV32I(
     );
     
-    reg clk, rst;
+    reg clk_in, rst;
     reg [15:0] switches;
-    wire [4:0] computer_state;
     wire [15:0] leds_out;
     
-    RV32I dut(.clk(clk), .rst(rst), .switches(switches), .leds_out(leds_out));
+    RV32I dut(.clk_in(clk_in), .rst(rst), .switches(switches), .leds_out(leds_out));
     
     localparam T = 10;
     
     always
     begin
-        clk <= 1'b0;
+        clk_in <= 1'b0;
         #(T/2);
-        clk <= 1'b1;
+        clk_in <= 1'b1;
         #(T/2);
     end
     
