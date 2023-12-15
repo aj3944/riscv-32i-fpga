@@ -1,0 +1,117 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (lin64) Build 3865809 Sun May  7 15:04:56 MDT 2023
+| Date         : Fri Dec 15 16:17:28 2023
+| Host         : boon running 64-bit Ubuntu 22.04.3 LTS
+| Command      : report_control_sets -verbose -file RV32I_control_sets_placed.rpt
+| Design       : RV32I
+| Device       : xc7a35t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    39 |
+|    Minimum number of control sets                        |    39 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    12 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    39 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    38 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              20 |           14 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |              32 |           13 |
+| Yes          | No                    | No                     |             128 |           78 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |            1040 |          535 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------+------------------------------------------------+------------------+------------------+----------------+--------------+
+|    Clock Signal   |                  Enable Signal                 | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------+------------------------------------------------+------------------+------------------+----------------+--------------+
+|  clk_in_IBUF_BUFG |                                                |                  |                1 |              1 |         1.00 |
+|  clk_BUFG         | control_unit/alu_out_reg_reg[2][0]             | rst_IBUF         |                9 |             16 |         1.78 |
+|  clk_BUFG         |                                                |                  |               13 |             19 |         1.46 |
+|  clk_BUFG         | instr_mem/memory_reg_4_14[0]                   | rst_IBUF         |               20 |             32 |         1.60 |
+|  clk_BUFG         | instr_mem/memory_reg_4_12[0]                   | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_4_16[0]                   | rst_IBUF         |               22 |             32 |         1.45 |
+|  clk_BUFG         | instr_mem/memory_reg_4_18[0]                   | rst_IBUF         |               12 |             32 |         2.67 |
+|  clk_BUFG         | instr_mem/memory_reg_4_19[0]                   | rst_IBUF         |               21 |             32 |         1.52 |
+|  clk_BUFG         | instr_mem/memory_reg_4_20[0]                   | rst_IBUF         |               14 |             32 |         2.29 |
+|  clk_BUFG         | instr_mem/memory_reg_4_21[0]                   | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_4_22[0]                   | rst_IBUF         |               14 |             32 |         2.29 |
+|  clk_BUFG         | instr_mem/memory_reg_4_24[0]                   | rst_IBUF         |               27 |             32 |         1.19 |
+|  clk_BUFG         | instr_mem/memory_reg_4_3[0]                    | rst_IBUF         |               16 |             32 |         2.00 |
+|  clk_BUFG         | instr_mem/memory_reg_4_4[0]                    | rst_IBUF         |               14 |             32 |         2.29 |
+|  clk_BUFG         | instr_mem/memory_reg_4_6[0]                    | rst_IBUF         |               16 |             32 |         2.00 |
+|  clk_BUFG         | instr_mem/memory_reg_4_7[0]                    | rst_IBUF         |               15 |             32 |         2.13 |
+|  clk_BUFG         | instr_mem/memory_reg_4_8[0]                    | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_5_0[0]                    | rst_IBUF         |               14 |             32 |         2.29 |
+|  clk_BUFG         | instr_mem/memory_reg_5_2[0]                    | rst_IBUF         |               14 |             32 |         2.29 |
+|  clk_BUFG         | control_unit/we_pc                             | rst_IBUF         |                9 |             32 |         3.56 |
+| ~clk_BUFG         |                                                | rst_IBUF         |               13 |             32 |         2.46 |
+|  clk_BUFG         | instr_mem/memory_reg_4_11[0]                   | rst_IBUF         |               18 |             32 |         1.78 |
+|  clk_BUFG         | control_unit/FSM_onehot_state_curr_reg[9]_0[3] |                  |               20 |             32 |         1.60 |
+|  clk_BUFG         | control_unit/FSM_onehot_state_curr_reg[9]_1[0] |                  |               25 |             32 |         1.28 |
+|  clk_BUFG         | instr_mem/memory_reg_4_15[0]                   | rst_IBUF         |               18 |             32 |         1.78 |
+|  clk_BUFG         | instr_mem/memory_reg_4_23[0]                   | rst_IBUF         |               22 |             32 |         1.45 |
+|  clk_BUFG         | instr_mem/memory_reg_4_9[0]                    | rst_IBUF         |               24 |             32 |         1.33 |
+|  clk_BUFG         | instr_mem/E[0]                                 | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_4_0[0]                    | rst_IBUF         |                9 |             32 |         3.56 |
+|  clk_BUFG         | instr_mem/memory_reg_4_13[0]                   | rst_IBUF         |               15 |             32 |         2.13 |
+|  clk_BUFG         | instr_mem/memory_reg_4_17[0]                   | rst_IBUF         |               20 |             32 |         1.60 |
+|  clk_BUFG         | instr_mem/memory_reg_4_2[0]                    | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_4_25[0]                   | rst_IBUF         |               19 |             32 |         1.68 |
+|  clk_BUFG         | instr_mem/memory_reg_4_5[0]                    | rst_IBUF         |               12 |             32 |         2.67 |
+|  clk_BUFG         | instr_mem/memory_reg_5_1[0]                    | rst_IBUF         |               17 |             32 |         1.88 |
+|  clk_BUFG         | instr_mem/memory_reg_3_1[0]                    | rst_IBUF         |               12 |             32 |         2.67 |
+|  clk_BUFG         | instr_mem/memory_reg_4_1[0]                    | rst_IBUF         |               15 |             32 |         2.13 |
+|  clk_BUFG         | instr_mem/memory_reg_4_10[0]                   | rst_IBUF         |               12 |             32 |         2.67 |
+|  clk_BUFG         | control_unit/E[0]                              |                  |               33 |             64 |         1.94 |
++-------------------+------------------------------------------------+------------------+------------------+----------------+--------------+
+
+

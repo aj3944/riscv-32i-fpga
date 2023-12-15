@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/User/RISC-V_Local/RISC-V_Local.runs/synth_1/RV32I.tcl"
+  variable script "/home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.runs/synth_1/RV32I.tcl"
   variable category "vivado_synth"
 }
 
@@ -70,34 +70,39 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param xicom.use_bs_reader 1
+set_param chipscope.maxJobs 2
+set_param checkpoint.writeSynthRtdsInDcp 1
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/User/RISC-V_Local/RISC-V_Local.cache/wt [current_project]
-set_property parent.project_path C:/Users/User/RISC-V_Local/RISC-V_Local.xpr [current_project]
+set_property webtalk.parent_dir /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.cache/wt [current_project]
+set_property parent.project_path /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property board_part digilentinc.com:basys3:part0:1.2 [current_project]
-set_property ip_output_repo c:/Users/User/RISC-V_Local/RISC-V_Local.cache/ip [current_project]
+set_property ip_output_repo /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_mem {
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data.mem
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr.mem
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/data.mem
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/instr.mem
 }
 read_verilog -library xil_defaultlib {
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/addr_controller.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/alu.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/control_unit.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/data_mem.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/imm_gen.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/instr_mem.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/reg_file.v
-  C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/sources_1/new/RV32I.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/addr_controller.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/alu.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/control_unit.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/data_mem.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/imm_gen.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/instr_mem.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/reg_file.v
+  /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/sources_1/new/RV32I.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -108,8 +113,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc
-set_property used_in_implementation false [get_files C:/Users/User/RISC-V_Local/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
+read_xdc /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc
+set_property used_in_implementation false [get_files /home/va/riscv-32i-fpga/riscv_32i/RISC-V_Local.srcs/constrs_1/imports/XDC/Basys3_Master.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

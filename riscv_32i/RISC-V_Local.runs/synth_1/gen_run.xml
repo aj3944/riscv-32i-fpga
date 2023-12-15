@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1702312261">
-  <File Type="PA-TCL" Name="RV32I.tcl"/>
-  <File Type="REPORTS-TCL" Name="RV32I_reports.tcl"/>
-  <File Type="RDS-RDS" Name="RV32I.vds"/>
-  <File Type="RDS-UTIL" Name="RV32I_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="RV32I_utilization_synth.pb"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1702674844">
+  <File Type="VDS-TIMINGSUMMARY" Name="RV32I_timing_summary_synth.rpt"/>
   <File Type="RDS-DCP" Name="RV32I.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="RV32I_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="RV32I_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="RV32I_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="RV32I.vds"/>
+  <File Type="REPORTS-TCL" Name="RV32I_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="RV32I_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="RV32I.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/addr_controller.v">
@@ -81,7 +84,7 @@
       <Option Name="TopModule" Val="RV32I"/>
     </Config>
   </FileSet>
-  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
     <Filter Type="Constrs"/>
     <File Path="$PSRCDIR/constrs_1/imports/XDC/Basys3_Master.xdc">
       <FileInfo>
@@ -95,7 +98,7 @@
       <Option Name="ConstrsType" Val="XDC"/>
     </Config>
   </FileSet>
-  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
     <Filter Type="Utils"/>
     <Config>
       <Option Name="TopAutoSet" Val="TRUE"/>
